@@ -1,0 +1,52 @@
+server:
+  port: ${server_port}
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false # To close a database connection after the transaction ends
+    generate-ddl: true # Data Definition Language - Generate database tables on the basis of @Entity classes
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          batch_size: 30 # No. of records that will be processed in bulk-processing
+  main:
+    banner-mode: off
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${trend_kart_postgres_url}
+    username: ${postgres_user}
+    password: ${postgres_password}
+    hikari:
+      maximum-pool-size: 10 # Max number of DB connections in the pool (i.e., up to 10 can be active at once).
+      minimum-idle: 1 # Minimum number of idle (unused but ready) connections kept in the pool.
+      idle-timeout: 30000 # Time (in ms) an idle connection can sit unused before being closed (30 sec).
+      max-lifetime: 1800000 # Max lifetime (in ms) for any single connection before it's killed & replaced (30 mins).
+      connection-timeout: 30000 # Max time (in ms) a thread will wait for a connection before throwing an error (30 sec).
+      pool-name: HikariCP # Just a custom name for the pool (useful in logs & metrics).
+  data:
+    mongodb:
+      uri: ${mongodb_uri}
+      database: ${mongodb_database}
+    redis:
+      host: ${redis_host}
+      port: ${redis_port}
+      timeout: 60000 # 60 Seconds - connection timeout
+      lettuce: # Two types of redis client -> lettuce and jedis. Lettuce is non-blocking, reactive-friendly, and generally better for modern Spring apps.
+        pool: # For connection pooling -> Pool of re-usable redis connections to to avoid creating / destroying them constantly
+          max-active: 10 # Max no. of connections allowed at once
+          max-idle: 10
+          min-idle: 1
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        context:
+          event: INFO

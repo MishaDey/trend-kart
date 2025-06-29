@@ -1,0 +1,9 @@
+export active_profile=dev
+export server_port=9090
+export trend_kart_postgres_url=jdbc:postgresql://localhost:5432/trend-kart
+export postgres_user=postgres
+export postgres_password=postgres
+export mongodb_uri=mongodb://localhost:27017
+export mongodb_database=trend-kart
+export redis_host=localhost
+export redis_port=6379

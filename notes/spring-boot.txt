@@ -1,0 +1,975 @@
+### 🧠 SPRING BOOT TOPICS – COMPLETE & SEQUENCED (INDUSTRY STANDARD)
+
+---
+
+#### 1️⃣ Spring Boot Basics
+
+* Spring Framework vs Spring Boot vs Spring MVC
+* Why Spring Boot? (convention over configuration)
+* Project structure & modules
+  -> 1. Layer-Based 2. Feature-Based
+* Spring Initializr (UI + CLI)
+* Main class (`@SpringBootApplication`)
+* SpringApplication lifecycle
+* Embedded servers (Tomcat, Jetty, Undertow)
+* Auto-configuration: how it works under the hood
+* Starter dependencies (`spring-boot-starter-*`)
+* DevTools (auto-reload, LiveReload)
+* Banner customization
+
+---
+
+#### 2️⃣ Build Tools
+
+* Maven basics: lifecycle phases, `pom.xml`, dependencies
+* Gradle basics: `build.gradle`, Groovy vs Kotlin DSL
+* Maven multi-module projects
+* Plugin usage: Surefire, Shade, Spring Boot plugin
+* Build profiles in Maven and Gradle
+* Versioning and Dependency Management
+
+---
+
+#### 3️⃣ Configuration Management
+
+* `application.properties` vs `application.yml`
+* Profile-specific properties & activation (`@Profile`, `spring.profiles.active`)
+* External configuration sources (env variables, cmd line, jar params, config server)
+* Environment abstraction: `Environment`, `ApplicationContext`
+* Property injection (`@Value`, `@ConfigurationProperties`, `@PropertySource`)
+
+---
+
+#### 4️⃣ Dependency Injection & Bean Management
+
+* Stereotype annotations: `@Component`, `@Service`, `@Repository`, `@Controller`
+* DI: `@Autowired` (constructor, field, setter), optional injection
+* Bean scopes (`@Scope`)
+* Lazy init: `@Lazy`
+* Primary beans: `@Primary`, `@Qualifier`
+* `@Bean`, `@Configuration`, `@Import`, `@ImportResource`
+* Bean lifecycle: `@PostConstruct`, `@PreDestroy`, InitializingBean, DisposableBean
+* Conditional annotations: `@ConditionalOnMissingBean`, `@ConditionalOnProperty`, etc.
+
+---
+
+#### 5️⃣ Web Layer (REST APIs)
+
+* `@RestController`, `@RequestMapping`, `@GetMapping`, `@PostMapping`, etc.
+* `@RequestBody`, `@RequestParam`, `@PathVariable`, `@RequestHeader`, `@CookieValue`
+* Content negotiation: JSON, XML, YAML
+* `ResponseEntity` and response customization
+* API versioning (URI, Header, Param, MIME type)
+* Exception handling:
+
+  * `@ControllerAdvice`, `@ExceptionHandler`
+  * Global error structure
+  * Custom exception classes
+* Input validation:
+
+  * Bean Validation API (JSR 380): `@NotNull`, `@Size`, etc.
+  * `@Valid`, `@Validated`, custom validators
+
+---
+
+#### 6️⃣ Data Access (JPA, JDBC, Repositories)
+
+* Spring Data JPA: `CrudRepository`, `JpaRepository`, `PagingAndSortingRepository`
+* Defining entities: `@Entity`, `@Id`, `@GeneratedValue`, `@Table`
+* Relationships: `@OneToMany`, `@ManyToOne`, etc.
+* Fetch strategies: LAZY vs EAGER
+* Cascade types
+* Custom queries: JPQL, Native SQL, `@Query`, `@Modifying`
+* Projections: Interface-based & DTO-based
+* Pagination & Sorting: `Page`, `Pageable`, `Sort`
+* Transactions: `@Transactional`, rollbackFor
+* Spring JDBC: `JdbcTemplate`, `NamedParameterJdbcTemplate`
+* Connection pooling (HikariCP)
+
+---
+
+#### 7️⃣ Database Versioning
+
+* Flyway: SQL-based version control
+* Liquibase: XML/YAML/JSON/SQL migrations
+
+---
+
+#### 8️⃣ API Enhancements
+
+* DTOs and ModelMapper / MapStruct
+* Custom response wrapper (standardized API responses)
+* Caching: `@Cacheable`, `@CachePut`, `@CacheEvict`, `@EnableCaching`
+* Redis integration
+
+---
+
+#### 9️⃣ Security (Spring Security)
+
+* Spring Security filter chain
+* AuthenticationManager, ProviderManager
+* Password encoding: BCrypt, Argon2
+* Form-based login, Basic Auth
+* Role-based authorization (`hasRole`, `hasAuthority`)
+* Method-level security: `@Secured`, `@PreAuthorize`, `@PostAuthorize`
+* CSRF protection, CORS config
+* Stateless auth with JWT: Filter, Token Provider, UserDetailsService
+* OAuth2: Google/GitHub login, scopes
+* Session management, remember-me
+
+---
+
+#### 🔟 Testing
+
+* Unit testing: JUnit 5, Mockito
+* Integration testing: `@SpringBootTest`, `@DataJpaTest`, `@WebMvcTest`
+* Test slicing
+* MockMvc
+* Embedded database testing: H2
+* TestContainers
+
+---
+
+#### 1️⃣1️⃣ DevTools, Monitoring & Observability
+
+* Logging: SLF4J, Logback, JSON logs
+* Spring Boot Actuator: health, metrics, custom endpoints
+* Micrometer
+* Prometheus + Grafana integration
+* ELK (Elasticsearch, Logstash, Kibana)
+* Distributed tracing: Sleuth + Zipkin
+
+---
+
+#### 1️⃣2️⃣ Asynchronous & Scheduling
+
+* `@Async`, `@EnableAsync`
+* Future/CompletableFuture
+* `@Scheduled`, cron expressions
+* Thread pool configuration
+
+---
+
+#### 1️⃣3️⃣ Messaging & Integration
+
+* Kafka: `@KafkaListener`, `KafkaTemplate`
+* RabbitMQ (AMQP): `@RabbitListener`, queues, exchanges
+* WebSocket + STOMP + SockJS
+* Email sending: JavaMailSender
+* SMS/Push Notifications: Twilio, Firebase
+
+---
+
+#### 1️⃣4️⃣ Documentation
+
+* Swagger/OpenAPI (springdoc-openapi)
+* Grouped APIs, security schemes
+* Postman collection generation
+
+---
+
+#### 1️⃣5️⃣ Production-Readiness & DevOps
+
+* Dockerizing Spring Boot (multi-stage Dockerfile)
+* Docker Compose
+* GitHub Actions / Jenkins CI/CD
+* Kubernetes deployment:
+
+  * Deployment YAMLs, Service, Ingress
+  * ConfigMaps, Secrets, readiness/liveness probes
+* Helm charts
+* Spring Boot with AWS (EC2, ECS, Elastic Beanstalk)
+* Spring Boot with GCP/Azure (optional)
+* Spring Cloud Config Server
+* Vault integration (secrets management)
+
+---
+
+#### 1️⃣6️⃣ Microservices & Cloud Native
+
+* Spring Cloud (Netflix OSS)
+* Eureka Server (Service Discovery)
+* Spring Cloud Gateway / Zuul (API Gateway)
+* Feign Clients (REST client abstraction)
+* Load Balancing: Ribbon / Spring Cloud LoadBalancer
+* Circuit Breakers: Resilience4j
+* Centralized config: Config Server
+* Service tracing: Sleuth + Zipkin
+
+---
+
+#### 1️⃣7️⃣ Internal Mechanics & Advanced Topics
+
+* `spring.factories` & custom starter creation
+* ApplicationContext lifecycle
+* Event publishing: `ApplicationEvent`, `@EventListener`
+* Servlet Filters and Handler Interceptors
+* Lifecycle hooks: `CommandLineRunner`, `ApplicationRunner`
+* Conditional annotations (`@ConditionalOnClass`, etc.)
+
+---
+
+#### 1️⃣8️⃣ Advanced Architectures (Optional Deep Dive)
+
+* HATEOAS
+* GraphQL with Spring Boot
+* gRPC
+* Multi-tenant architecture (schema & database per tenant)
+* Reactive Programming (Spring WebFlux: Mono, Flux)
+* Functional-style bean definitions
+* Kotlin support (Coroutines, DSL)
+
+---
+
+
+
+
+
+
+NOW, LET's DEEP-DIVE
+
+
+✅ 1️⃣ Spring Boot Basics
+  | Topic                                   | What It Is                                                                                                        | Note                                                                                                                            |
+  | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+  | **Spring vs Spring Boot vs Spring MVC** | Spring = Core Framework, Spring MVC = Web Layer (Controllers, Views), Spring Boot = Opinionated + Auto-config     | *"Spring Boot reduces boilerplate using autoconfig & starters. Spring MVC is part of Spring Boot if you build a web app."*      |
+  | **Why Spring Boot**                     | Convention over configuration, auto setup                                                                         | *"It minimizes XML config, has embedded servers, and production-ready defaults."*                                               |
+  | **Project Structure**                   | Packages: controller, service, repo, model, config                                                                | *"I follow layered architecture for testability & clarity."*                                                                    |
+  | **Spring Initializr**                   | UI/CLI tool to generate starter project                                                                           | *"It bootstraps a new Spring Boot project with starters & build files."*                                                        |
+  | **@SpringBootApplication**              | Combines `@Configuration`, `@EnableAutoConfiguration`, `@ComponentScan`                                           | *"It marks the main entry point and kicks off Spring Boot."*                                                                    |
+  | **SpringApplication Lifecycle**         | Handles app startup: init → context load → run → shutdown                                                         | *"Used for customizing app startup & programmatic control."*                                                                    |
+  | **Embedded Servers**                    | Tomcat (default), Jetty, Undertow                                                                                 | *"Spring Boot uses embedded servers = easy deployment, no WARs."*                                                               |
+  | **Auto-Configuration**                  | Uses `@Conditional*` to configure beans if certain conditions match                                               | *"Spring Boot checks classpath, env props, and creates beans auto-magically."*                                                  |
+  | **Starters**                            | Pre-packaged dependencies: e.g., `spring-boot-starter-web`                                                        | *"Each starter includes everything needed for a specific task (web, data, security)."*                                          |
+  | **DevTools**                            | Auto-restart, LiveReload, dev-only settings                                                                       | *"Speeds up dev feedback loop. Not meant for production."*                                                                      |
+  | **Banner Customization**                | Replace default startup banner (ASCII art)                                                                        | *"Purely cosmetic, fun way to personalize projects."*                                                                           |
+
+  Spring Boot is Opinionated:
+    Spring Boot is an opinionated extension of Spring that auto-configures your application and allows you to build standalone, production-ready Java applications with minimal boilerplate.
+    Opinionated means: Spring Boot makes decisions for you — it chooses sensible defaults so you don't have to configure everything manually.
+
+    Eg: When we add:
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    Without you writing a single config:
+      Boot auto-configures Tomcat as the embedded server
+      Enables Spring MVC
+      Adds Jackson for JSON conversion
+      Sets up a DispatcherServlet
+      Configures default error pages, and more
+
+    That’s opinionated behavior:
+      It assumes **what you probably
+    
+  Conversion over configuration meaning:
+    It means: If you follow the expected conventions, Spring Boot will automatically configure things for you — no need to write boilerplate XML or annotations.
+    🧠 Simple Translation:
+      “Do it the usual way, and I got you.” – Spring Boot, probably
+      Instead of asking you to specify every little detail (like the location of config files, bean names, view resolvers, etc.), Spring Boot assumes defaults and just works — as long as you stick to its conventions.
+      | Thing                 | Convention                                                                | If You Do This                                              | You Get…                             |
+      | --------------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------ |
+      | 📁 Project structure  | `src/main/java`, `src/main/resources`                                     | Place files here                                            | Auto-detection of config & resources |
+      | 🔍 Component scanning | Classes in the same or sub-package of `@SpringBootApplication`            | No need to specify base packages manually                   |                                      |
+      | 🛠 Properties         | Use `application.properties` or `application.yml` in `resources/`         | Spring Boot auto-loads them                                 |                                      |
+      | 💾 DB Config          | Add `spring-boot-starter-data-jpa` + JDBC URL in `application.properties` | Boot auto-configures Hibernate, DataSource, etc.            |                                      |
+      | 🖥️ Web App            | Add `spring-boot-starter-web`                                             | Auto-configures Spring MVC, DispatcherServlet, JSON support |                                      |
+
+      You follow the rules → Spring Boot rewards you with less boilerplate and faster development.
+  SpringApplication Lifecycle:
+    It’s the sequence of steps that Spring Boot goes through when starting up your application — from bootstrapping to bean creation to running your logic.
+    🧠 Happens When You Run:
+      @SpringBootApplication
+      public class TrendKartApp {
+        public static void main(String[] args) {
+          SpringApplication.run(TrendKartApp.class, args);
+        }
+      }
+
+      That single line triggers a full-on spring-powered orchestration show.
+        | 🔢 Step                            | 🔧 What Happens                                                                                            | 🧠 Key Concepts                                                  |
+        | ---------------------------------- | --------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+        | **1. Bootstrap**                   | `SpringApplication` instance is created                                                                   | You can customize startup (set banners, profiles, add listeners) |
+        | **2. Environment Preparation**     | Reads `application.properties` / `.yml`, system properties, env vars                                      | Initializes `ConfigurableEnvironment`                            |
+        | **3. Listeners Triggered**         | Fires early lifecycle events like `ApplicationStartingEvent`, `ApplicationEnvironmentPreparedEvent`, etc. | Use `ApplicationListener` to hook into early lifecycle           |
+        | **4. ApplicationContext Creation** | Sets up `AnnotationConfigServletWebServerApplicationContext` (web) or regular context (CLI apps)          | Core IoC container is created                                    |
+        | **5. Bean Definitions Loaded**     | Scans for `@Component`, `@Service`, `@Repository`, `@Bean`, etc.                                          | Component scanning + dependency injection                        |
+        | **6. Auto-Configuration**          | Applies default configs using `@EnableAutoConfiguration` and classpath conditions                         | Uses `@ConditionalOnClass`, `@ConditionalOnMissingBean`, etc.    |
+        | **7. Context Refreshed**           | ApplicationContext is refreshed → beans fully initialized → lifecycle methods triggered                   | `@PostConstruct`, `InitializingBean`                             |
+        | **8. Runners Triggered**           | Runs any `CommandLineRunner` or `ApplicationRunner` beans (if defined)                                    | Good for DB seeding, startup checks                              |
+        | **9. Application Ready**           | App is fully started and ready to handle requests                                                         | Embedded server running (Tomcat/Jetty)                           |
+        | **10. Graceful Shutdown**          | Runs shutdown hooks when app stops or crashes                                                             | `@PreDestroy`, close DBs, cleanup resources                      |
+
+      Concepts:
+        Bootstrap:
+          - to start something by itself, from scratch, without external help.
+          - Bootstrapping means the initial process of setting up and launching a system — especially where components initialize themselves and each other.
+          - Note: SpringApplication is the class that bootstraps everything.
+
+        ApplicationListener:
+          - is how you hook into Spring Boot’s lifecycle events, especially the early stages before the context is even fully created.
+          - Perfect for:
+            Logging startup stages
+            Customizing environment before it's locked
+            Firing up secrets loading or config decrypting
+            Debugging weird startup issues
+          
+          You can register a class that listens to specific lifecycle events like:
+          | Event Class                           | When It Fires                                                  |
+          | ------------------------------------- | -------------------------------------------------------------- |
+          | `ApplicationStartingEvent`            | 🚀 Right after app starts bootstrapping (before anything else) |
+          | `ApplicationEnvironmentPreparedEvent` | 📦 After environment is loaded, but context not yet created    |
+          | `ApplicationPreparedEvent`            | 🧠 After the context is created, but before beans are loaded   |
+          | `ApplicationStartedEvent`             | ✅ After the context is refreshed                               |
+          | `ApplicationReadyEvent`               | 🎉 App is fully ready to serve                                 |
+          | `ApplicationFailedEvent`              | 💥 If app startup fails due to an exception                    |
+
+          | Use Case                       | Listener Type                                    |
+          | ------------------------------ | ------------------------------------------------ |
+          | Load secrets before beans init | `ApplicationEnvironmentPreparedEvent`            |
+          | Initialize a metrics reporter  | `ApplicationStartedEvent`                        |
+          | Custom shutdown log            | `ContextClosedEvent` or `ApplicationFailedEvent` |
+          | Validate external config early | `ApplicationPreparedEvent`                       |
+        
+        ApplicationContext Creation:
+          - ApplicationContext:
+            - is spring's central container. The heart of the framework.
+            - Holds and manages all the beans, their life-cycles, dependencies, configs, even listeners in an application
+            - It’s an interface that extends BeanFactory and adds extra features:
+                Dependency Injection (DI)
+                Bean lifecycle management
+                Internationalization
+                Application events
+                Environment config access
+                Web integration (in WebApplicationContext)
+
+            💡 What Happens During ApplicationContext Creation?
+              Spring Boot detects the app type (Web, CLI, Reactive).
+              Based on that, it creates an appropriate context:
+                AnnotationConfigServletWebServerApplicationContext for Web
+                AnnotationConfigApplicationContext for non-Web (CLI, Batch)
+              It prepares the context — adds:
+                Bean definition readers
+                Environment configs
+                Message sources
+                Event multicaster
+              Beans start getting registered but not initialized yet
+        Embedded Server:
+          - An embedded server means the web server runs inside your app, not outside of it.
+          - Spring Boot uses embedded servers like Tomcat so the application can run as a self-contained .jar without deploying to an external server. It simplifies development and is ideal for microservices and cloud deployments.
+          - Eg. Tomcat
+          | Benefit                        | Why It Rocks                                          |
+          | ------------------------------ | ----------------------------------------------------- |
+          | ✅ **No WAR needed**           | Just `java -jar` your fat `.jar` file                 |
+          | 🚀 **Quick to develop & test** | Spin up instantly with embedded server                |
+          | ⚙️ **Easier CI/CD**            | No app server setup — the server lives *with* the app |
+          | 🌍 **Microservice friendly**   | Perfect for containerization, Docker, K8s, etc.       |
+        Auto-Configuration:
+          - Spring Boot uses @EnableAutoConfiguration to load many pre-defined config classes, and applies them conditionally using 
+          annotations like @ConditionalOnClass, @ConditionalOnProperty, and @ConditionalOnMissingBean from classes in META-INF/spring.factories
+          - Role of @Conditional* Annotations:
+            - These annotations decide whether or not to apply an auto-configuration, based on certain conditions.
+            | Annotation                     | Fires if…                                                 |
+            | ------------------------------ | --------------------------------------------------------- |
+            | `@ConditionalOnClass(X.class)` | Class `X` is on the classpath                             |
+            | `@ConditionalOnMissingBean`    | A bean of that type is NOT already defined                |
+            | `@ConditionalOnProperty`       | A specific property (like `spring.datasource.url`) exists |
+            | `@ConditionalOnWebApplication` | Only if this is a web application                         |
+            | `@ConditionalOnExpression`     | If a SpEL (Spring Expression Language) evaluates to true  |
+            | `@ConditionalOnJava`           | Checks Java version                                       |
+          - To see what is being configured. We can run the application with --debug
+    
+
+  Spring Core: What You Should Know Before Coding
+
+    ---
+
+    ### 1️⃣ What Is a **Bean** in Spring?
+
+    A **Bean** is just an object managed by the Spring **IoC (Inversion of Control) Container**.
+    * When you annotate something with `@Component`, `@Service`, `@Repository`, or define it via `@Bean` in config, Spring:
+      * Instantiates it
+      * Injects its dependencies
+      * Manages its lifecycle
+
+    It’s like saying:
+    > “Hey Spring, you own this object now. I’ll just *ask you* for it when I need it.”
+
+    ---
+
+    ### 2️⃣ Why Are Beans **Singleton by Default**?
+    Because Spring wants to save memory and avoid creating multiple copies of the same service.
+    ```java
+    @Service
+    public class UserService {}
+    ```
+
+    This is a **singleton** by default, meaning:
+    * One and only one instance of `UserService` is created and reused across the app.
+    > Why? Because services are usually **stateless**, so one copy is enough.
+
+    ---
+
+    ### 3️⃣ Spring Bean Scopes
+
+    | Scope         | Meaning                                         |
+    | ------------- | ----------------------------------------------- |
+    | `singleton`   | One shared instance (default)                   |
+    | `prototype`   | New instance *every time* you `@Autowired` it   |
+    | `request`     | New bean per HTTP request (only in web context) |
+    | `session`     | New bean per session                            |
+    | `application` | Shared across app context (like singleton)      |
+
+    Use prototype if the bean holds **state** and shouldn't be shared.
+
+    Singleton V/s Application Scope:
+    | Scope         | Applies In                | Lifetime                                 | What It Means                                                        |
+    | ------------- | ------------------------- | ---------------------------------------- | -------------------------------------------------------------------- |
+    | `singleton`   | **Default Spring scope**  | One bean instance *per Spring container* | Same instance reused everywhere                                      |
+    | `application` | **Web applications only** | One bean instance *per ServletContext*   | Tied to the app lifecycle in a servlet container (Tomcat/Jetty/etc.) |
+
+    singleton works anywhere, not just in web apps. It’s the general default.
+    application is useful in multi-app environments, where you're running multiple web apps under the same server (like two WAR files on a Tomcat server), and you want the bean to exist once per app, but not globally.
+
+    ---
+
+    ### 4️⃣ How Are Beans Created?
+
+    Via one of the following:
+
+    | Method        | Example Annotation                                     |
+    | ------------- | ------------------------------------------------------ |
+    | Auto-detected | `@Component`, `@Service`, `@Repository`, `@Controller` |
+    | Manual        | `@Bean` in a `@Configuration` class                    |
+    | Conditional   | `@ConditionalOnProperty`, `@Profile`, etc.             |
+
+    ---
+
+    ### 5️⃣ Dependency Injection (DI)
+
+    **Instead of creating objects with `new`,** you let Spring *inject* them for you.
+
+    Example:
+
+    ```java
+    @Service
+    public class ProductService {
+        private final ProductRepository repo;
+
+        @Autowired
+        public ProductService(ProductRepository repo) {
+            this.repo = repo;
+        }
+    }
+    ```
+
+    > You’re not in control anymore — Spring is. Hence, **Inversion of Control**.
+
+    ---
+
+    ### 6️⃣ Bean Lifecycle (Simplified)
+
+    1. Instantiate (`new`)
+    2. Inject dependencies
+    3. Run any init methods (`@PostConstruct`)
+    4. Use the bean
+    5. Destroy bean on shutdown (`@PreDestroy`)
+
+    ---
+
+    ### 7️⃣ Bonus: Annotations You Should Know NOW
+
+    | Annotation        | Purpose                                      |
+    | ----------------- | -------------------------------------------- |
+    | `@Component`      | Generic bean                                 |
+    | `@Service`        | Business logic layer                         |
+    | `@Repository`     | DAO layer with exception translation         |
+    | `@Controller`     | Handles web requests (MVC)                   |
+    | `@RestController` | `@Controller` + `@ResponseBody`              |
+    | `@Autowired`      | Inject dependency (constructor is preferred) |
+    | `@Qualifier`      | If multiple beans of same type               |
+    | `@Bean`           | Manual bean registration                     |
+    | `@Configuration`  | Class that defines `@Bean`s                  |
+
+---
+
+    ### 2️⃣ **Dependency Injection (DI) & IoC**
+
+    | Concept  | What It Means                                                                           |
+    | -------- | --------------------------------------------------------------------------------------- |
+    | **IoC**  | You don’t create objects with `new`, Spring gives you the object (control is inverted). |
+    | **DI**   | You “inject” dependencies into classes automatically.                                   |
+    | **How?** | Through `@Autowired`, constructor injection (preferred), or setter injection.           |
+
+    ---
+
+    ### 3️⃣ **Spring Configuration**
+
+    | Annotation        | Purpose                                                                   |
+    | ----------------- | ------------------------------------------------------------------------- |
+    | `@Configuration`  | Class that contains one or more `@Bean` methods (manual bean definitions) |
+    | `@Bean`           | Create and manage a bean manually                                         |
+    | `@Value`          | Inject properties from application.yml/properties                         |
+    | `@PropertySource` | Load custom properties file                                               |
+
+    ---
+
+    ### 4️⃣ **Component Scanning**
+
+    ```java
+    @SpringBootApplication
+    public class App {}
+    ```
+
+    This covers:
+
+    * `@ComponentScan`: Finds `@Component`-annotated beans in the package
+    * `@EnableAutoConfiguration`: Auto-configures stuff based on dependencies
+    * `@Configuration`: This class also defines beans and config
+
+    > `@SpringBootApplication` is just a combination of all 3 above.
+
+    ---
+
+    ### 5️⃣ **Spring Boot Application Lifecycle**
+
+    | Phase       | What Happens                                      |
+    | ----------- | ------------------------------------------------- |
+    | App starts  | Spring Boot initializes context, creates beans    |
+    | Beans wired | DI and component scan kicks in                    |
+    | App runs    | All `@PostConstruct`, listeners, schedulers, etc. |
+    | App ends    | `@PreDestroy`, cleanup, context destroyed         |
+
+    ---
+
+    ### 8️⃣ **Logging**
+
+    ```yaml
+    logging:
+      level:
+        root: INFO
+        com.trendkart: DEBUG
+    ```
+
+    You control what gets printed, where, and how.
+
+    ---
+
+  ### 9️⃣ **Spring Boot Starters**
+
+  > These are **bundled dependency packs** like:
+
+  * `spring-boot-starter-web` → Web + REST APIs
+  * `spring-boot-starter-data-jpa` → Hibernate + DB
+  * `spring-boot-starter-security` → Auth
+  * `spring-boot-starter-validation` → Bean validation
+  * `spring-boot-starter-actuator` → Monitoring
+
+  ---
+
+  ### 🔟 **Validation & Exception Handling**
+
+  * `@Valid`, `@NotNull`, `@Email`, `@Min`, etc.
+  * `@ControllerAdvice` + `@ExceptionHandler` = Global error handling
+
+  ---
+
+  ### 🧪 Bonus Concepts Worth Knowing:
+
+  | Topic                          | Why It Matters                                    |
+  | ------------------------------ | ------------------------------------------------- |
+  | `@RestControllerAdvice`        | Cleaner global exception handling                 |
+  | `@PostConstruct`/`@PreDestroy` | Hook into bean lifecycle                          |
+  | Lombok                         | Avoid boilerplate (`@Data`, `@Builder`, etc.)     |
+  | Actuator                       | Monitor endpoints: `/actuator/health`, `/metrics` |
+  | Swagger/OpenAPI                | Auto API documentation                            |
+  | Scheduling                     | `@Scheduled(fixedRate = ...)` for jobs            |
+
+  ---
+
+  ## 🔥 TL;DR Checklist:
+
+  ✅ Bean Basics + Scopes
+  ✅ Dependency Injection
+  ✅ Application Lifecycle
+  ✅ Configuration + Profiles
+  ✅ Logging
+  ✅ Starters
+  ✅ Property Injection
+  ✅ Exception Handling
+  ✅ Component Scanning
+  ✅ Validation
+
+  You master this? You’re basically **Spring Boot Elite Tier.**
+
+---
+
+
+✅ 2️⃣ Build Tools
+  🔧 **What Are Build Tools?**
+  > **Build tools** automate the process of:
+    * **Compiling code**
+    * **Resolving dependencies**
+    * **Running tests**
+    * **Packaging your app** into `.jar` or `.war`
+    * And optionally: **deploying it**
+
+  ⚔️ **Maven vs Gradle – Quick Comparison**
+  | Feature                  | **Maven** 💎                       | **Gradle** ⚡                             |
+  | ------------------------ | ---------------------------------- | ---------------------------------------- |
+  | **Build file**           | `pom.xml` (XML format)             | `build.gradle` (Groovy or Kotlin)        |
+  | **Configuration style**  | Declarative                        | Declarative + Scriptable                 |
+  | **Speed**                | Slower (no build cache by default) | Faster (build cache + incremental build) |
+  | **Readability**          | Verbose but predictable            | Concise but can get tricky               |
+  | **Community**            | Massive in Java ecosystem          | Growing, especially in Android           |
+  | **Used in Spring Boot?** | ✅ Default, fully supported         | ✅ Also supported                         |
+
+  ✅ For **Spring Boot**, both are solid.
+    “I’ve mainly used **Maven**, since it’s stable, widely adopted, and well-integrated with Spring Boot’s plugins.”
+
+  🧱 Now, A Little More on Maven:
+    📦 1. **Maven Lifecycle Phases**
+      | Phase      | What It Does                       |
+      | ---------- | ---------------------------------- |
+      | `validate` | Check if project structure is fine |
+      | `compile`  | Compile source code                |
+      | `test`     | Run unit tests                     |
+      | `package`  | Bundle into `.jar` or `.war`       |
+      | `verify`   | Run additional checks              |
+      | `install`  | Install `.jar` into local repo     |
+      | `deploy`   | Push `.jar` to remote repo         |
+
+    📜 2. **`pom.xml` Structure**
+      ```xml
+      <project>
+        <groupId>com.trendkart</groupId>
+        <artifactId>trendkart-core</artifactId>
+        <version>1.0.0</version>
+        <dependencies>
+          <!-- Spring Boot starter, DB drivers, etc. -->
+        </dependencies>
+      </project>
+      ```
+
+    🔌 3. **Popular Maven Plugins**
+      | Plugin                     | Purpose                         |
+      | -------------------------- | ------------------------------- |
+      | `maven-surefire-plugin`    | Run unit tests                  |
+      | `spring-boot-maven-plugin` | Run and package Spring Boot app |
+      | `maven-shade-plugin`       | Build fat/uber jars             |
+      | `jacoco-maven-plugin`      | Generate test coverage reports  |
+
+    🌎 4. **Build Profiles**
+      Define different environments: `dev`, `test`, `prod`
+      ```xml
+      <profiles>
+        <profile>
+          <id>dev</id>
+          <properties>
+            <env>dev</env>
+          </properties>
+        </profile>
+      </profiles>
+      ```
+
+  🧠 5. **Dependency Management**
+    * Handles **transitive dependencies**
+    * Use `<dependencyManagement>` to **pin versions** across modules
+    * Uses **local repo** (`~/.m2/repository`) and remote ones like Maven Central
+
+✅ 3️⃣ Configuration Management
+  | **Concept**                                   | **Quick Summary**                                                                    |
+  | --------------------------------------------- | ------------------------------------------------------------------------------------ |
+  | `application.properties` vs `application.yml` | Two formats for config; `.properties` = key=value, `.yml` = cleaner hierarchy.       |
+  | Profile-specific properties                   | Create `application-dev.yml`, `application-prod.yml`, etc. for env-specific configs. |
+  | `spring.profiles.active`                      | Used to activate a specific profile (`dev`, `prod`, etc.) via config or CLI.         |
+  | `@Profile` annotation                         | Restrict beans/configs to specific profiles (`@Profile("dev")`).                     |
+  | External config sources                       | Configs can come from env vars, CLI args, JAR params, or Spring Cloud Config.        |
+  | `Environment`, `ApplicationContext`           | Interfaces to access env-specific properties and app context.                        |
+  | `@Value`                                      | Inject individual values like `@Value("${server.port}")`.                            |
+  | `@ConfigurationProperties`                    | Binds a group of properties into a POJO for cleaner structure.                       |
+  | `@PropertySource`                             | Load extra property files manually into context.                                     |
+
+  🧠 @Profile Annotation:
+    @Configuration
+    @Profile("dev") //  Only loads a bean when spring.profiles.active=dev
+    public class DevConfig {
+        @Bean
+        public DataSource devDataSource() {
+            return new HikariDataSource(); // dev DB config here
+        }
+    }
+    
+    🌎 External config sources
+      From CLI: java -jar app.jar --server.port=9090
+
+    🌡️ Environment / ApplicationContext:
+      @Component
+      public class EnvExample {
+          @Autowired
+          private Environment env;
+
+          public void printPort() {
+              System.out.println("Port: " + env.getProperty("server.port"));
+          }
+      }
+
+      📦 @ConfigurationProperties
+        1. YAML/Properties
+          my:
+            app:
+              name: TrendKart
+              version: 1.0
+        2. POJO
+          @Component
+          @ConfigurationProperties(prefix = "my.app")
+          public class AppConfig {
+              private String name;
+              private String version;
+              // getters + setters
+          }
+        📁 @PropertySource - ✅ Load non-default property files (not application.yml/properties)
+            @Configuration
+            @PropertySource("classpath:extra-config.properties")
+            public class ExtraConfig {
+                @Value("${extra.prop}")
+                private String value;
+            }
+        | ✅ Use This                 | ❓ Why It's Best                                                                                                  |
+        | -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+        | `@ConfigurationProperties` | 🔥 **Cleanest**, best for binding **groups** of related settings (DB, cache, app config, etc.)                   |
+        | `@Value`                   | ✅ Use only for **simple one-off values** (like version, port, feature flag).                                     |
+        | `Environment`              | ✅ Great when you need to **dynamically fetch** or access unknown keys at runtime.                                |
+        | `@Profile`                 | 🔥 **Must-have** for loading dev/stage/prod-specific beans/configs cleanly.                                      |
+        | `External Configs`         | 🔥 Crucial for prod! Keep secrets/env-specific stuff **out of code**. Use env vars, CLI, or Spring Cloud Config. |
+        | `@PropertySource`          | ⚠️ Use **only if** you have extra property files (like `sms-config.properties` etc.)                             |
+
+
+  - Notes are in application.yml file
+  About some of the configurations we are going to do in application.yml:
+    1. Hikari Connection Pool
+      - But what is Connection Pool?
+        - A connection pool is a cache of pre-created database connections that the app uses instead of
+
+
+✅ PROJECT IMPLEMENTATION NOTES:
+
+  1. Initialising the Project:
+    - Done Using Spring Initializer
+        Group: com.trend-kart: Organisation name (in reverse domain style)
+              Used to uniquely identify your project. In Maven/Gradle world, this helps avoid clashes with other libraries.
+        Artifact: trendkart-backend -> Actual Project or Module name. It becomes the JAR file name when built (trendkart-backend-1.0.jar).
+        Name: Just a human-friendly name for project, hows up in build tools or Spring Boot startup logs.
+        Description: Shows up in API documentation
+        Package:  base Java package under which your classes will live.
+        Dependencies:
+          Spring Web - Build web, including RESTful, applications using Spring MVC. Uses Apache Tomcat as the default embedded container.
+          Spring JPA - Persists Data in SQL based stores using Spring Data and Hibernate
+            JPA - It is a specification in Java to manage relational data using ORM(Object Relational Mapping). It is just the rules.
+            Hibernate - It is the actual working libraries -> Eg: Hibernate, EclipseLink, OpenJPA
+
+  2. PostgreSQL Database setup and the tables:
+      Lombok: A library that helps in annotations
+        @Data: @Getter, @Setter, @ToString, @EqualsAndHashCode, @RequiredArgsConstructor
+
+  2. Event listeners
+    - Event Listeners can be thought of as event subscribers
+    - We publish an event like AuditLogEvent
+    - Spring scans all the @EventListener and @TransactionEventListener methods
+      - The methods which are annotated with these are registered using ApplicationMulticaster
+      - If anyone is listening to the event then the method is triggered
+  4. Asynchronous & Scheduling
+     * Async and EnableAsync annotations
+        - It runs a method asynchronously in a separate Thread, without blocking the main Thread
+        - Only works if the async method is called from a different bean
+        - Use cases:
+          | Use Case                       | Why Use `@Async`?                            |
+          | ------------------------------ | -------------------------------------------- |
+          | Send order confirmation emails | Don’t make users wait for SMTP               |
+          | Save audit logs (like you did) | Non-blocking, faster                         |
+          | Push notifications             | Firebase/APNs take time — fire in background |
+          | Update product feed in Redis   | Async refresh of data                        |
+          | Webhook calls                  | Hit 3rd party endpoints without waiting      |
+      * Scheduled and EnableScheduling -> Will discuss later
+      * Thread Pool Configuration
+        - A thread pool is a group of background threads that our app can re-use to perfom some task asynchronously or on schedule,
+          instead of creating new threads everytime, which is a costly operation. (We can say that threads are on standby)
+        - Spring uses thread pool executor in background to handle all this.
+            If you don’t configure anything:
+              You get a default one-thread pool 🐌
+              All async tasks run on a single thread
+              Everything feels slow or blocked
+            
+            | Task                   | Thread Pool Benefit                     |
+            | ---------------------- | --------------------------------------- |
+            | Audit logging (async)  | Don’t block user flow                   |
+            | Email sending          | Async queue of mail tasks               |
+            | Cache refresh to Redis | Multiple threads can update in parallel |
+            | Analytics logging      | Fire-and-forget w/o holding up UX       |
+            | Cron-based cleanup     | Don’t mess with main request threads    |
+          
+          corePoolSize - corePoolSize is the minimum number of threads that the pool will keep alive — even if they’re idle.
+            Why it shouldn't be large:
+              Memory (stack ~512KB to 1MB)
+              CPU time (context switching, scheduling)
+              Resources from the JVM and OS -> Management will be an overhead
+          Standard formula to find the number of threads that we should keep:
+              Number of CPU cores * (1 + Wait Time / Compute Time)
+          corePoolSize = 10–50	✅ Reasonable for most backend apps
+          To print the current thread: Thread.currentThread.getName()
+  
+  5. Exception Handling in Java
+      - Exception: Something that interrrupts the normal flow of any process
+      - Errors: Are generaaly caused due to resources unavailability. 
+
+      ## ✅ **Standard Industry Practice for Error Handling in Java Spring Boot**
+      In **most real-world backend systems** (including at places like Amazon, Netflix, etc.), error handling is done in a way that’s:
+
+      ### 🔹 Centralized
+        All exceptions go to one place (using `@RestControllerAdvice`), so responses are consistent.
+
+      ### 🔹 Layered
+        * Validation errors (`@Valid`, `@NotNull`, etc.) are caught and mapped cleanly.
+        * Business logic errors use custom exceptions (but **only when necessary**).
+        * DB constraint violations like **duplicate keys**, **FK errors**, etc., are caught via standard Spring exceptions like `DataIntegrityViolationException`.
+
+      ### 🔹 Message Mapping
+        Constraint/DB errors are handled by **parsing the root cause**, and **mapping common constraint names to human-readable messages**.
+        **NOT** by making a custom class per error.
+
+      ---
+
+      ## 📦 Here's the Standard Stack in Most Mid to Large Backends:
+        | Error Type                      | Exception Type                    | Handling Strategy                      |
+        | ------------------------------- | --------------------------------- | -------------------------------------- |
+        | Validation (e.g. empty name)    | `MethodArgumentNotValidException` | Field-level error messages returned    |
+        | Bad request/illegal params      | `IllegalArgumentException`        | Return `400 Bad Request`               |
+        | Duplicate key, constraint error | `DataIntegrityViolationException` | Map constraint name to message         |
+        | Business rule violation         | `CustomBusinessException`         | Only when it’s **real** business logic |
+        | Unhandled internal error        | `Exception`                       | Generic `500 Internal Server Error`    |
+        | Auth issues                     | `AccessDeniedException`, etc.     | Handled via Spring Security filters    |
+
+      ---
+
+      ### 🧪 Example in Real Products (Amazon-style apps):
+        **Constraint errors** like `users_email_key` → “Email already exists.”
+        are **handled by parsing `PSQLException` message** dynamically and mapping the `constraint name` to a **friendly error message** in the response.
+
+      ---
+
+      ## 🔧 BONUS: Error Response Format (Standard Practice)
+        Most APIs respond with something like:
+
+        ```json
+        {
+          "timestamp": "2025-06-25T18:30:00Z",
+          "status": 409,
+          "error": "Conflict",
+          "message": "Email already exists.",
+          "path": "/api/users"
+        }
+        ```
+        You can create a reusable response structure (DTO) for this.
+
+      ---
+
+      ## ✅ So in short:
+
+      > ✨ **We should avoid creating a class per error.**
+      > ✅ The *standard* is: Use centralized `@RestControllerAdvice`, catch specific known Spring exceptions (like `DataIntegrityViolationException`), and parse meaningful messages dynamically.
+
+      So, In my App, 
+        The goal is to have a centralized error handling, which will handle different type of error
+        and will also be scalable to add other 
+      
+      Advices:
+        Advices are reusable pieces of code that can be run at specific points in the app, like before or after method calls or on exceptions.
+        @RestControllerAdvice = @ControllerAdvice + @ResponseBody
+          -> Special kind of advice that watches over the rest controller.
+          -> Gets triggered only on exceptions.
+          -> Returns JSONs as reponses. 
+        | Term                        | Meaning                                                |
+        | --------------------------- | ------------------------------------------------------ |
+        | **Advice**                  | Reusable logic applied around method calls             |
+        | **`@RestControllerAdvice`** | Global JSON exception handler for all REST controllers |
+        | **Why use it?**             | To centralize and simplify error handling              |
+      
+      MethodArgumentNotValidException:
+        - Exception will be thrown when a method argument which is annotated with @Valid or @Validated fails validation
+        - @Valid Annotation:
+            - Will check if the argument violates any validation which may have been defined using 'Java Bean Validation' in the class
+              Some annotations of the Java Bean class:
+                @NotBlank, @Size, @Min, @Max, @Email, etc. 
+        - @Valid v/s @Validated
+          | Annotation   | Package                                               | Used On                          | Groups Support | Use Case                                                                 |
+          | ------------ | ----------------------------------------------------- | -------------------------------- | -------------- | ------------------------------------------------------------------------ |
+          | `@Valid`     | `jakarta.validation.Valid`                            | Parameters, fields               | ❌ No           | Simple bean validation (basic annotations like `@NotNull`, etc.)         |
+          | `@Validated` | `org.springframework.validation.annotation.Validated` | Class level or method parameters | ✅ Yes          | For advanced validation (especially when you want *grouped validations*) |
+        - 🧠 @Validated – Spring’s Enhanced Validator (Advanced stuff)
+            Supports:
+              Validation Groups (like different rules for Create vs Update)
+              Method-level validation (like on @Service or @Component)
+  6. REST (Representational State Transfer)
+      REST - 
+        - Representational State Transfer
+        - It is a software architecture style or a set of guidelines for designing the communication between diffeerent nodes in a netweork
+          It's not actually a protocol
+          REST promotes simplicity, scalability and performance which is why it is used in Web Applications
+      
+      HTTP Methods usage as per REST Guidelines:
+        | Operation               | HTTP Method    | Used In Practice? | DTO Split? | Notes                                         |
+        | ----------------------- | -------------- | ----------------- | ---------- | --------------------------------------------- |
+        | **Create new entity**   | `POST`         | ✅ Yes             | ✅ Yes      | `/users` with CreateUserDTO                   |
+        | **Full replace entity** | `PUT`          | 🚫 Rarely         | 🚫 No      | Not used unless you're replacing *everything* |
+        | **Partial update**      | `PATCH`        | ✅ Preferred       | ✅ Yes      | Cleanest way to update fields                 |
+        | **Delete**              | `DELETE`       | ✅ Yes             | ❌ No       | `/users/{id}`                                 |
+        | **Update with POST**    | `POST /update` | 🤏 Sometimes      | ✅ Yes      | Pragmatic choice for simple apps              |
+        | **Use only `POST`**     | ❌ Anti-pattern | ❌ Bad idea        | ❌ No       | Violates REST principles                      |
+  
+  7. Redis
+    - For Redis to work:
+      1. We need to add Redis Config to add Serialiser to the template -> in order to generate the response and cache it
+      2. Also, the DTOs need to implement Serializable
+
+  8. Concurrency, Multi-Threading, Locking
+
+      | Area                   | Meaning in Human Words                           | Why It Matters in Backend                               |
+      | ---------------------- | ------------------------------------------------ | ------------------------------------------------------- |
+      | **Multithreading**     | Running multiple operations at once              | Async processing, non-blocking I/O                      |
+      | **Concurrency**        | Managing shared resources across threads safely  | Avoiding bugs when multiple users hit the same resource |
+      | **Synchronization**    | Making sure shared data doesn’t go corrupt       | Updating product stock, cart ops                        |
+      | **Thread Safety**      | Designing code that won’t explode under pressure | Resilient backend logic                                 |
+      | **Parallelism**        | Speeding up tasks by dividing across cores       | Processing big data, bulk ops                           |
+      | **Thread Pooling**     | Reusing threads efficiently                      | Performance optimization                                |
+      | **Locks & Semaphores** | Preventing race conditions and deadlocks         | Inventory, session control                              |
+
+      8.1. MultiThreading:
+        * Definition: brain-bytes repo - Run multiple tasks at once using threads
+          - Thread: 
+            - Process:
+              - A independent Program in exceution
+              - Has it's own resources, memory and execution context
+              - Managed by OS
+            - Thread: A light-weight sub-process
+
+
+        * 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

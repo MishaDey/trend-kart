@@ -1,0 +1,259 @@
+**TDD** = **Test-Driven Development** –
+A software development approach where you write **tests before writing the actual code**. 🧪🧑‍💻
+
+The classic TDD mantra is:
+> **Red ➡️ Green ➡️ Refactor**
+
+### ⚙️ TDD Workflow (same across languages):
+
+1. **Write a failing test**
+   * You write a test case for a small piece of functionality.
+   * It fails because you haven’t implemented the code yet.
+   > (📛 **Red** phase – test is red, as in "broken")
+
+2. **Write the minimum code to pass the test**
+   * Just enough to make the test pass. Nothing fancy.
+   > (✅ **Green** phase – test turns green)
+
+3. **Refactor the code**
+   * Clean it up, optimize, rename variables, fix design.
+   > (🔄 **Refactor** phase – improve code without breaking the test)
+
+---
+
+### 🧬 Is TDD same in Ruby on Rails (RoR) and Java?
+**YES** in philosophy. **DIFFERENT** in tools and syntax.
+
+#### ✅ Common Ground:
+* Same cycle: Write test ➡️ Write code ➡️ Refactor
+* Promotes modular, testable, clean code
+* Encourages early bug detection
+
+---
+
+### 🚀 In Java:
+* Uses **JUnit** for unit testing
+* Uses **Mockito** for mocking dependencies
+* Integration testing with **Spring Test**, **MockMvc**, or **TestContainers**
+* Maven/Gradle for running tests
+
+```java
+@Test
+public void testAdd() {
+    Calculator calc = new Calculator();
+    assertEquals(5, calc.add(2, 3));
+}
+```
+
+---
+
+### 🚀 In Ruby on Rails:
+* Uses **RSpec** (most common), or built-in **Minitest**
+* Often uses **FactoryBot** and **Capybara** for test data and browser sim
+* Tests are written like specs (very human-readable)
+
+```ruby
+RSpec.describe Calculator do
+  it 'adds two numbers' do
+    calc = Calculator.new
+    expect(calc.add(2, 3)).to eq(5)
+  end
+end
+```
+---
+
+### 🧠 Summary:
+
+| Feature        | Java             | RoR (Ruby on Rails)           |
+| -------------- | ---------------- | ----------------------------- |
+| Unit Testing   | JUnit            | RSpec / Minitest              |
+| Mocking        | Mockito          | RSpec Mocks / Mocha           |
+| Structure      | More verbose     | More concise & readable       |
+| Setup          | Slightly heavier | Lightweight, convention-based |
+| TDD Philosophy | ✅ Same           | ✅ Same                        |
+
+---
+
+Want to try a simple TDD-style example in Java or ROR together? 👀
+
+
+
+
+
+
+
+
+
+## 🧰 🧪 COMPLETE SET OF TOOLS FOR UNIT TESTING IN SPRING BOOT
+
+We'll divide this into:
+
+1. **Core Unit Testing Tools**
+2. **Mocking & Stubbing**
+3. **Assertion Libraries**
+4. **Spring-Specific Testing**
+5. **Code Coverage**
+6. **Extras / Dev Enhancers**
+
+---
+
+### 1️⃣ **Core Unit Testing Tools**
+
+| Tool                  | Purpose                                      | Example                                |
+| --------------------- | -------------------------------------------- | -------------------------------------- |
+| **JUnit 5** (Jupiter) | Base framework for writing and running tests | `@Test`, `@BeforeEach`, `@DisplayName` |
+
+✔️ Your main test runner.
+✔️ Used for both pure unit tests and Spring context tests.
+
+---
+
+### 2️⃣ **Mocking & Stubbing**
+
+| Tool                     | Purpose                                                              | Example                                                     |
+| ------------------------ | -------------------------------------------------------------------- | ----------------------------------------------------------- |
+| **Mockito**              | Create mocks/stubs for dependencies                                  | `when(service.doSomething()).thenReturn(...)`               |
+| **@Mock / @InjectMocks** | Used with Mockito to inject mocks into the class being tested        | Clean dependency injection for unit testing                 |
+| **@MockBean**            | Spring Boot-specific, creates a mock bean in the application context | Used in integration-style unit tests with `@SpringBootTest` |
+
+> 📌 In pure unit tests, use **@Mock/@InjectMocks**.
+> In semi-integration tests with Spring context, use **@MockBean**.
+
+---
+
+### 3️⃣ **Assertion Libraries**
+
+| Tool         | Purpose                     | Example                                            |
+| ------------ | --------------------------- | -------------------------------------------------- |
+| **AssertJ**  | Fluent, readable assertions | `assertThat(name).startsWith("Mi").contains("sh")` |
+| **Hamcrest** | Older but still widely used | `assertThat(result, is(equalTo(5)))`               |
+
+> ✅ **AssertJ** is most modern and readable. JUnit 5 has built-in assertions, but AssertJ gives you more power.
+
+---
+
+### 4️⃣ **Spring-Specific Testing Support**
+
+| Tool                | Purpose                                       | Notes                                     |
+| ------------------- | --------------------------------------------- | ----------------------------------------- |
+| **@WebMvcTest**     | Loads only web layer (controller + filters)   | Great for isolating controller tests      |
+| **MockMvc**         | Simulates HTTP calls to controllers           | No need to run server                     |
+| **@DataJpaTest**    | Loads only JPA components (repos + DB config) | Used for testing Repositories             |
+| **@SpringBootTest** | Loads full Spring Boot context                | Avoid for unit tests unless really needed |
+
+---
+
+### 5️⃣ **Code Coverage & Reports**
+
+| Tool          | Purpose                               | Notes                        |
+| ------------- | ------------------------------------- | ---------------------------- |
+| **JaCoCo**    | Code coverage reports                 | Integrates with Maven/Gradle |
+| **SonarQube** | Code quality + test coverage tracking | Used in CI/CD pipelines      |
+
+---
+
+### 6️⃣ **Extras / Productivity Tools**
+
+| Tool                           | Purpose                                          | Notes                               |
+| ------------------------------ | ------------------------------------------------ | ----------------------------------- |
+| **TestContainers**             | Spin up real DBs in Docker for integration tests | Use with PostgreSQL, MongoDB etc.   |
+| **Spring Boot DevTools**       | Hot reloads and dev-focused tools                | Not for tests per se, but helpful   |
+| **Lombok's `@Slf4j`** in tests | Add logs in test class                           | Useful for debugging test execution |
+
+---
+
+### 💡 Bonus: Test Types You Might Write in Spring Boot
+
+| Test Type                | Tools/Annotations You’ll Use                 | Example                    |
+| ------------------------ | -------------------------------------------- | -------------------------- |
+| **Unit Test (pure)**     | JUnit + Mockito + @Mock/@InjectMocks         | Service class test         |
+| **Controller Unit Test** | JUnit + Mockito + @WebMvcTest + MockMvc      | API-level testing          |
+| **Repo Test**            | @DataJpaTest + H2 + Spring Data Repositories | Query verification         |
+| **Integration Test**     | @SpringBootTest + MockBeans + TestContainers | End-to-end feature testing |
+
+---
+
+### 🚀 Minimal Setup for Unit Test in a Service Class
+
+```java
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+
+    @Mock
+    private UserRepository userRepository;
+
+    @InjectMocks
+    private UserService userService;
+
+    @Test
+    void shouldReturnUserWhenFound() {
+        User mockUser = new User(1L, "Misha", "email@test.com");
+        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+
+        User result = userService.getUserById(1L);
+
+        assertThat(result.getName()).isEqualTo("Misha");
+    }
+}
+```
+
+---
+
+### ✅ Summary: Your Spring Boot Unit Test Arsenal
+
+* **JUnit 5** – foundation
+* **Mockito** – mocks and stubs
+* **AssertJ** – readable assertions
+* **@WebMvcTest / MockMvc** – controller testing
+* **@DataJpaTest / H2** – repo testing
+* **@SpringBootTest** – heavier, for integration
+* **JaCoCo + SonarQube** – for test coverage visibility
+* **TestContainers** – real environment validation
+
+---
+
+
+Aye aye, captain. 🫡
+Let me drop the **ultimate JUnit + Mockito Interview Checklist Table** — zero fluff, **only what actually matters** for Java/Spring Boot dev roles.
+
+---
+
+
+
+
+
+
+
+### 📋 JUNIT + MOCKITO TOPICS - LEARNING PHASE - 1
+
+| 💡 Topic                               | 🧠 What You Should Know                                                               | ✅ Importance |
+| -------------------------------------- | ------------------------------------------------------------------------------------- | ------------ |
+| **1. JUnit Basics**                    | `@Test`, structure of a test class, naming conventions                                | ⭐️⭐️⭐️⭐️⭐️   |
+| **2. Common Assertions**               | `assertEquals`, `assertTrue`, `assertFalse`, `assertThrows`, `assertThat` (basic use) | ⭐️⭐️⭐️⭐️⭐️   |
+| **3. JUnit 5 Lifecycle Annotations**   | `@BeforeEach`, `@AfterEach`, `@BeforeAll`, `@AfterAll`, `@Disabled`                   | ⭐️⭐️⭐️⭐️     |
+| **4. Mockito Basics**                  | `@Mock`, `@InjectMocks`, `when(...).thenReturn(...)`, verifying interactions          | ⭐️⭐️⭐️⭐️⭐️   |
+| **5. Service Layer Testing**           | Mocking repos/services and testing actual logic                                       | ⭐️⭐️⭐️⭐️⭐️   |
+| **6. Exception Testing**               | Using `assertThrows()` to check for custom or standard exceptions                     | ⭐️⭐️⭐️⭐️     |
+| **7. Controller Testing (Spring)**     | `@WebMvcTest`, `MockMvc`, testing endpoints without full app context                  | ⭐️⭐️⭐️⭐️     |
+| **8. `@MockBean` vs `@Mock`**          | When to use each in Spring Boot tests                                                 | ⭐️⭐️⭐️       |
+| **9. `@SpringBootTest`**               | What it does, when it’s *not* ideal (integration, not unit testing)                   | ⭐️⭐️⭐️       |
+| **10. Parameterized Tests (optional)** | Running a test with multiple inputs (JUnit 5 feature)                                 | ⭐️⭐️         |
+| **11. AssertJ Library (optional)**     | Fluent-style assertions like `assertThat(...).isNotEmpty().contains(...)`             | ⭐️⭐️⭐️       |
+| **12. Test Naming Conventions**        | `shouldDoX_WhenY` format, readable test names                                         | ⭐️⭐️         |
+| **13. Coverage Tools (just theory)**   | Mention **JaCoCo** for coverage and **SonarQube** for code quality if asked           | ⭐️⭐️         |
+| **14. Best Practices**                 | One assertion per test, mock only external deps, no DB/network in unit tests          | ⭐️⭐️⭐️⭐️     |
+
+---
+
+### 🧪 Example Learning Order (Quick Mode):
+
+| Day             | Topics                                                       |
+| --------------- | ------------------------------------------------------------ |
+| Day 1 – 3 hrs   | JUnit basics, lifecycle, assertions, simple test cases       |
+| Day 1 – 2 hrs   | Mockito mocking, `@Mock`, `@InjectMocks`, `when...`          |
+| Day 2 – 1.5 hrs | Spring Boot test annotations – `@WebMvcTest`, `MockMvc`      |
+| Day 2 – 1 hr    | Exception testing, naming conventions, AssertJ (light touch) |
+| Day 2 – 30 min  | Theoretical stuff: `@SpringBootTest`, coverage tools         |
+
+---
+

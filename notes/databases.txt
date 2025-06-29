@@ -1,0 +1,514 @@
+DATABASE TYPES:
+
+> 🔵 **Relational (SQL)**
+> 🔴 **Non-Relational (NoSQL)** — and its **subtypes**
+> 🟡 **Specialized DBs & Big Data Tools**
+
+---
+
+# 🔵 RELATIONAL DATABASES (SQL)
+
+| Feature           | Details                                                         |
+| ----------------- | --------------------------------------------------------------- |
+| **Model**         | Tables with rows & columns                                      |
+| **Schema**        | Fixed                                                           |
+| **Supports**      | Joins, ACID transactions                                        |
+| **Best For**      | Structured data, strong consistency, well-defined relationships |
+| **Examples**      | PostgreSQL, MySQL, Oracle, SQL Server                           |
+| **TrendKart Use** | Users, Products, Orders, Cart (all structured, relational data) |
+
+
+[FULL-SCREEN TO READ]
+
+| 🔠 Letter           | 🧠 Concept                  | 📜 Meaning                                                                                                         |
+| ------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| **A – Atomicity**   | *"All or nothing."*         | A transaction must be fully completed or not done at all. If one part fails, the entire transaction rolls back.    |
+| **C – Consistency** | *"Data must follow rules."* | The database must always be in a valid state — before and after the transaction. Constraints are never violated.   |
+| **I – Isolation**   | *"No interference."*        | Transactions don’t mess with each other. One transaction’s changes are not visible to others until it's committed. |
+| **D – Durability**  | *"It’s forever, baby."*     | Once committed, data is saved — even if there's a crash, power failure, or system error.                           |
+
+
+---
+
+# 🔴 NON-RELATIONAL DATABASES (NoSQL)
+
+> ⚡ Not “one thing” — actually **four main types**, each with different strengths 👇
+
+## 🟣 1. **Document Store**
+
+| Feature           | Details                                       |
+| ----------------- | --------------------------------------------- |
+| **Model**         | JSON/BSON documents                           |
+| **Schema**        | Flexible                                      |
+| **Best For**      | Semi-structured content, dynamic data         |
+| **Examples**      | MongoDB, Couchbase                            |
+| **TrendKart Use** | Posts with likes/comments, user activity logs |
+
+---
+
+## 🔵 2. **Key-Value Store**
+
+| Feature           | Details                                         |
+| ----------------- | ----------------------------------------------- |
+| **Model**         | Key : Value pairs                               |
+| **Schema**        | None                                            |
+| **Best For**      | Caching, sessions, real-time metrics            |
+| **Examples**      | Redis, DynamoDB, Riak                           |
+| **TrendKart Use** | Caching feeds, API rate-limiting, user sessions |
+
+---
+
+## 🟠 3. **Wide-Column Store**
+
+| Feature           | Details                                                 |
+| ----------------- | ------------------------------------------------------- |
+| **Model**         | Column families (rows with dynamic columns)             |
+| **Schema**        | Flexible per row                                        |
+| **Best For**      | Write-heavy workloads, time-series data                 |
+| **Examples**      | Apache Cassandra, HBase                                 |
+| **TrendKart Use** | Clickstream data, likes/views tracking, engagement logs |
+
+---
+
+## 🟢 4. **Graph Store**
+| Feature           | Details                                                                                                     |
+| ----------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Model**         | **Nodes** (things) and **Edges** (how they’re connected)                                                    |
+| **Schema**        | Flexible — new types of nodes/relationships can be added anytime                                            |
+| **Best For**      | Social networks, recommendations, fraud detection, anything where **connections matter more than raw data** |
+| **Examples**      | `Neo4j` (most popular), `ArangoDB` (multi-model), `Amazon Neptune` (fully managed on AWS)                   |
+| **TrendKart Use** | Follower-following, "Users you may like", related products graph                                            |
+
+“People you may like”
+“Users who bought this also liked”
+Product similarity by tags, categories, behaviors
+
+👀 Why Not Just Use SQL for This?
+Because querying relationships like:
+“Give me all the users followed by people who follow Misha”
+or
+“Find products that were liked by users who liked similar posts as me”
+…in SQL, it would be an absolute JOIN mess 😩
+In a Graph DB? It's 1 line in Cypher. Clean. Fast. Elegant.
+
+🧠 Core Concepts:
+| Concept                    | What It Means                                                                               |
+| -------------------------- | ------------------------------------------------------------------------------------------- |
+| **Node**                   | Represents an **entity** (e.g., User, Post, Product)                                        |
+| **Edge (or Relationship)** | Connects two nodes — e.g., *FOLLOWS*, *LIKES*, *BOUGHT*                                     |
+| **Properties**             | Nodes and edges can have key-value pairs (e.g., a User node might have `username`, `email`) |
+| **Query Language**         | Graph DBs use `Cypher` (Neo4j), `Gremlin`, or `SPARQL` for graph traversal                  |
+
+
+🛠️ Example Use Cases:
+
+| Use Case           | Why Graph DB Works                                |
+| ------------------ | ------------------------------------------------- |
+| Friend Suggestions | Traverse multi-level user relationships           |
+| Related Products   | Find nodes/products connected by similar tags     |
+| Fraud Detection    | Spot suspicious user-device-IP chains             |
+| Knowledge Graphs   | Google-style search: concepts linked semantically |
+
+
+---
+
+# 🟡 SPECIALIZED DATABASES / ECOSYSTEMS
+
+## 🔍 **Search Engine Databases**
+
+| Feature           | Full-text search + filters                           |
+| ----------------- | ---------------------------------------------------- |
+| **Examples**      | Elasticsearch, Solr                                  |
+| **TrendKart Use** | Search product names, tags, captions, fuzzy matching |
+
+---
+
+## ⏳ **Time-Series Databases**
+
+| Feature           | Optimized for time-stamped data                |
+| ----------------- | ---------------------------------------------- |
+| **Examples**      | InfluxDB, TimescaleDB, Prometheus              |
+| **TrendKart Use** | Track views, active users, analytics over time |
+
+| DB              | Popularity                        | Use Case                                 | Who Uses It                                       |
+| --------------- | --------------------------------- | ---------------------------------------- | ------------------------------------------------- |
+| **InfluxDB**    | 🔥 Very popular                   | Time-stamped metrics, logs, performance  | IoT platforms, DevOps (monitoring), fintech       |
+| **Prometheus**  | 🧨 Most used for infra monitoring | System metrics (CPU, memory, disk, etc.) | Kubernetes/DevOps setups, Grafana stack           |
+| **TimescaleDB** | 📈 Gaining popularity             | Time-series + SQL hybrid                 | SaaS apps, analytics platforms, PostgreSQL lovers |
+
+
+---
+
+## 🧠 **Big Data / Distributed Processing**
+
+| Feature           | Large-scale processing or querying                      |
+| ----------------- | ------------------------------------------------------- |
+| **Examples**      | Apache Hadoop, Spark, Hive, Trino                       |
+| **TrendKart Use** | Batch analytics, offline ML pipelines, data warehousing |
+
+| Tool                   | Popularity        | Use Case                      | Who Uses It                              |
+| ---------------------- | ----------------- | ----------------------------- | ---------------------------------------- |
+| **Apache Spark**       | 🔥🔥🔥 Top choice  | Real-time + batch processing  | Netflix, Uber, Pinterest                 |
+| **Hive**               | 🧓 Still used     | SQL on Hadoop (batch queries) | Legacy big data systems                  |
+| **Trino (Presto)**     | 🚀 Rising star    | Federated querying across DBs | Facebook, Airbnb                         |
+| **Hadoop (MapReduce)** | 🪦 Declining      | Legacy batch jobs             | Still used where Spark isn't adopted yet |
+
+🧠 TL;DR:
+    For real-time + scalable ETL/ML jobs → Apache Spark (KING)
+    For ad-hoc querying over big data lakes → Trino
+    For legacy warehouse-style systems → Hive
+    Hadoop (MapReduce) is old-gen, mostly replaced by Spark
+
+➡️ TrendKart Suggestion: Use Spark to:
+    Analyze bulk user behavior from logs (Kafka → Spark)
+    Recommend trending posts/products (batch job)
+    Train ML model for "What to show on homepage"
+
+---
+
+
+# 📦 TL;DR: MASTER TABLE
+
+[FULL-SCREEN TO READ]
+
+| Category    | Type          | Best For                           | Examples              | TrendKart Use                       |
+| ----------- | ------------- | ---------------------------------- | --------------------- | ----------------------------------- |
+| **SQL**     | Relational    | Structured data & relationships    | PostgreSQL, MySQL     | Users, Products, Orders             |
+| **NoSQL**   | Document      | Dynamic, nested, flexible data     | MongoDB               | Posts, Comments                     |
+| 〃           | Key-Value     | Ultra-fast caching & sessions      | Redis, DynamoDB       | Feed cache, sessions, rate limiting |
+| 〃           | Wide-Column   | High-write, time-series            | Cassandra, HBase      | Engagement tracking                 |
+| 〃           | Graph         | Deep relationships & connections   | Neo4j, ArangoDB       | Followers, recommendations          |
+| **Special** | Search Engine | Full-text, filters, autocomplete   | Elasticsearch         | Search posts/products               |
+| 〃           | Time-Series   | Metric trends, event history       | InfluxDB, TimescaleDB | Analytics, traffic heatmaps         |
+| 〃           | Big Data      | Massive batch or stream processing | Spark, Hadoop, Trino  | Offline analytics, ML training data |
+
+---
+
+
+
+
+
+## SOME ADDITIONAL DATABASES:
+
+
+
+## 👀 Now, Let’s See If We Missed Anything...
+
+### 🟡 1. **New-Age / Multi-Model DBs**
+
+> Databases that support multiple data models in one engine.
+
+| Example       | Supports                                    |
+| ------------- | ------------------------------------------- |
+| **ArangoDB**  | Document + Graph + Key-Value                |
+| **OrientDB**  | Document + Graph                            |
+| **Couchbase** | Key-Value + Document                        |
+| **FaunaDB**   | Relational + Document (serverless cloud DB) |
+
+✅ *Good to mention in interviews for “flexible DBs” or when asked “what if you want fewer moving parts?”*
+
+---
+
+### 🟡 2. **Ledger / Immutable / Blockchain-style DBs**
+
+> When you need **tamper-proof**, append-only logs (audits, finance)
+
+| Example                | Use                                              |
+| ---------------------- | ------------------------------------------------ |
+| **Amazon QLDB**        | Immutable ledger-style DB (built by AWS)         |
+| **BigchainDB**         | Blockchain DB for secure document signing        |
+| **Hyperledger Fabric** | Private blockchain platform (used by banks etc.) |
+
+✅ Optional, but good flex for fintech/security/startup interviews.
+
+---
+
+### 🟡 3. **Vector Databases (for AI/ML & search)**
+
+> Used in modern apps with **semantic search, embeddings, LLMs**
+
+| Example                      | Use                                                          |
+| ---------------------------- | ------------------------------------------------------------ |
+| **Pinecone**                 | Store & search vector embeddings (chatbots, recommendations) |
+| **Weaviate, Qdrant, Milvus** | AI-powered search (like “posts similar to this image/text”)  |
+
+✅ Mention if you're aiming for AI/LLM startup jobs.
+
+---
+
+### 🟡 4. **Cloud-Specific Databases**
+
+These aren’t conceptually new, but come up in **SaaS or cloud-native interviews**.
+
+| Provider | Examples                                                                              |
+| -------- | ------------------------------------------------------------------------------------- |
+| AWS      | DynamoDB (Key-Value/Doc), Aurora (MySQL/Postgres), QLDB                               |
+| GCP      | Firestore (Document), BigQuery (analytics), Spanner (Relational + horizontal scaling) |
+| Azure    | CosmosDB (multi-model)                                                                |
+
+✅ Mentioning **vendor-optimized DBs** = bonus points for **DevOps + cloud-awareness**.
+
+---
+
+## ✅ Now\... Is This Enough for Interviews?
+
+### For **DSA + Backend Dev Interviews (Amazon, Paytm, Swiggy, etc.)**
+
+**YES.** You’re more than prepared. Just know how to:
+
+* Choose DB based on access patterns
+* Justify tradeoffs (e.g., "MongoDB here avoids joins but sacrifices transactions")
+
+### For **System Design Rounds**
+
+**HELL YES.** You now speak fluent:
+
+* “Eventually Consistent, Denormalized, Event-Driven Systems”
+
+### For **Startup / Scalable Backend Roles**
+
+**YUP.** You can discuss:
+
+* Multi-DB architecture
+* Data partitioning
+* Async messaging + real-time processing
+
+### For **Cloud/Infra/AI Startup Roles**
+
+You might also mention (if relevant):
+
+* Vector DBs (ML search, LLMs)
+* Serverless DBs (Fauna, Firebase)
+* Distributed SQL (CockroachDB, Spanner)
+
+---
+
+## 🧠 TL;DR – Did We Miss Anything Major?
+
+| Category                    | Covered?       | Relevance                     |
+| --------------------------- | -------------- | ----------------------------- |
+| Relational                  | ✅              | High                          |
+| NoSQL (4 Types)             | ✅              | Very High                     |
+| Search/Time-Series/Big Data | ✅              | High                          |
+| Multi-Model DBs             | ⚠️ Now covered | Nice-to-have                  |
+| Blockchain DBs              | ⚠️ Now covered | Optional                      |
+| Vector DBs                  | ⚠️ Now covered | For AI-focused roles          |
+| Cloud DBs                   | ⚠️ Now covered | For cloud-native/backend jobs |
+
+---
+
+## 🎯 Final Verdict:
+
+You're 100% set for interviews — and now also **extra prepped** for:
+
+* *"What DB would you pick and why?"*
+* *"How would you store X at scale?"*
+* *"What tradeoffs would you make in choosing DB A over B?"*
+
+Want me to turn all this into a 1-pager PDF “Cheat Sheet” for you? 🧾🔥
+It’ll be a killer last-minute revision before interviews.
+
+
+
+🧠 TrendKart Database Stack – Final Architecture Overview
+
+Polyglot Persistence is the art of using multiple databases — each one tailored to its job.
+
+
+| #   | Type                      | Database             | Use Case                            | Purpose in TrendKart                                                       |
+| --- | ------------------------- | -------------------- | ----------------------------------- | ---------------------------------------------------------------------------|
+| 1️⃣ | Relational DB             | **PostgreSQL**       | Structured, relational data         | Users, Products, Orders, Cart                                               |
+| 2️⃣ | Document Store (NoSQL)    | **MongoDB**          | Semi-structured data                | Audits, Activity Logs                                                       |
+| 3️⃣ | Key-Value Store (NoSQL)   | **Redis**            | Caching, rate limiting              | API throttling, session store, fast-feed cache                              |
+| 6️⃣ | Search Engine DB          | **Elasticsearch**    | Full-text search                    | Product/post search by name, tags, caption                                  |
+| 4️⃣ | Wide-Column Store (NoSQL) | **Apache Cassandra** | High-write, scalable event tracking | Likes/views tracking, user engagement logs                                  |
+| 5️⃣ | Graph Store (NoSQL)       | **Neo4j** or similar | Relationship modeling               | Follower-following, related product graph                                   |
+| 7️⃣ | Time-Series DB            | **InfluxDB**         | Time-stamped analytics              | Likes/views over time, active user trends                                   |
+| 8️⃣ | Big Data Engine           | **Apache Spark**     | Large-scale batch processing        | Analyze user behavior logs, homepage content via rule-based recommendations |
+
+
+
+EACH DATABASE IN DETAIL
+
+1. POSTGRESQL
+    - We will go in detail for this later
+
+2. MONGODB
+    Concepts:
+        ## 🧠 MongoDB Basics – What You *Need* to Know
+
+        ### 🔹 What is MongoDB?
+
+            MongoDB is a **NoSQL document database**.
+            It stores data in **flexible, JSON-like documents**, not in fixed rows and tables like SQL.
+            You don’t need to define a schema up front. Just send JSON — it stores it.
+
+        ---
+
+        ## 🧩 MongoDB Key Concepts & Terminologies
+
+        | Term                  | What It Means                                                                                    |
+        | --------------------- | ------------------------------------------------------------------------------------------------ |
+        | **Database**          | Like a DB in SQL — holds collections                                                             |
+        | **Collection**        | Like a table — stores documents                                                                  |
+        | **Document**          | Like a row — but in **BSON (binary JSON)** format                                                |
+        | **\_id**              | Every document has a unique `_id` field (like a primary key)                                     |
+        | **BSON**              | Binary version of JSON used internally (faster, supports more types)                             |
+        | **Schema-less**       | You don’t need to define structure — different documents in same collection can have diff fields |
+        | **Embedded Document** | A document inside a document (like nested JSON)                                                  |
+        | **Array**             | MongoDB supports arrays natively as a field type                                                 |
+        | **Index**             | Used to speed up queries, just like in SQL                                                       |
+        | **ObjectId**          | Default `_id` format: a 12-byte unique identifier generated by Mongo                             |
+
+        ---
+
+        ## 🧃 Document Example
+
+        ```json
+        {
+        "_id": "abc123",
+        "userId": "u001",
+        "action": "VIEW_PRODUCT",
+        "target": "product_202",
+        "timestamp": "2024-06-25T12:00:00Z",
+        "device": {
+            "os": "iOS",
+            "browser": "Safari"
+        }
+        }
+        ```
+
+        That’s a **MongoDB document** — and it's stored inside a **collection** (e.g. `audit_logs`).
+
+        ---
+
+        ### 🛠️ CRUD Operations in Mongo Terms
+
+        | SQL        | MongoDB Equivalent                                       |
+        | ---------- | -------------------------------------------------------- |
+        | `SELECT *` | `find()`                                                 |
+        | `INSERT`   | `insertOne()` / `insertMany()`                           |
+        | `UPDATE`   | `updateOne()` / `updateMany()`                           |
+        | `DELETE`   | `deleteOne()` / `deleteMany()`                           |
+        | `WHERE`    | Query filter (e.g., `{ userId: 'u001' }`)                |
+        | `JOIN`     | Use **embedded documents** or **\$lookup** (aggregation) |
+
+        ---
+
+        ### ⚡ Query Example (Mongo Shell / Compass)
+
+        ```js
+        db.audit_logs.find({ userId: "u001" });
+        ```
+
+        That fetches all audit logs for user u001. Super clean.
+
+        ---
+
+        ### 🔍 MongoDB Query Features
+
+        * `find()` → Query documents
+        * `projection` → Pick specific fields (`{ name: 1, email: 1 }`)
+        * `$gt`, `$lt`, `$in`, `$regex`, etc. → Filtering operators
+        * `sort()` → Sort results
+        * `limit()` → Restrict how many results
+        * `update` → Set fields or push to array
+
+        ---
+
+        ### ⚙️ Common MongoDB Tools
+
+        | Tool                    | Purpose                                    |
+        | ----------------------- | ------------------------------------------ |
+        | **Mongo Shell**         | CLI tool to interact with Mongo            |
+        | **Mongo Compass**       | GUI tool for visualizing DBs/collections   |
+        | **Mongo Atlas**         | Cloud-hosted MongoDB (free tier available) |
+        | **Spring Data MongoDB** | Java abstraction layer over Mongo driver   |
+
+        ---
+
+        ### 🔐 Bonus: What Makes Mongo Popular?
+
+        * Schema-free = dev friendly
+        * Easy to scale horizontally
+        * Flexible for storing logs, user data, product metadata, etc.
+        * Fast reads/writes with indexing
+        * Ideal for microservices, logging, analytics
+
+        ---
+
+        ### TL;DR Recap (Mongo Mind Map 🧠):
+
+        * 🗂 **Collection** = Table
+        * 📄 **Document** = JSON-like Row
+        * 🧬 **\_id** = Primary Key
+        * ⚙️ **No schema required**
+        * 🧪 **CRUD with find/insert/update/delete**
+        * 🧰 Use Spring Data MongoDB with `@Document`, `MongoRepository`
+
+        ---
+
+        Run -> mongosh
+
+        Create a collection ->
+        db.createCollection("audit_logs")
+
+        💥 Basic Mongo Queries (Shell-style or Compass)
+
+            Eg: db.audit_logs or db['audit_logs'] -> is equivalent
+            
+
+            | **Operation**     | **Query** (Mongo Shell or Compass)                                                      |
+            | ----------------- | --------------------------------------------------------------------------------------- |
+            | Find all          | `db.users.find()`                                                                       |
+            | Find one          | `db.users.findOne({ email: "koko@example.com" })`                                       |
+            | Filter by field   | `db.users.find({ role: "admin" })`                                                      |
+            | Filter with AND   | `db.users.find({ role: "admin", name: "Misha" })`                                       |
+            | Filter with OR    | `db.users.find({ $or: [ { role: "admin" }, { name: "Misha" } ] })`                      |
+            | Filter with regex | `db.users.find({ name: { $regex: "^M", $options: "i" } })`                              |
+            | Sort              | `db.users.find().sort({ name: 1 })` → `1` for asc, `-1` for desc                        |
+            | Limit             | `db.users.find().limit(5)`                                                              |
+            | Pagination        | `db.users.find().skip(10).limit(5)`                                                     |
+            | Count             | `db.users.countDocuments({ role: "admin" })`                                            |
+            | Exists            | `db.users.find({ email: { $exists: true } })`                                           |
+            | Field projection  | `db.users.find({}, { name: 1, email: 1, _id: 0 })` → show only name & email, hide `_id` |
+        
+        Others:
+            db.audit_logs.countDocuments()
+
+
+        🔄 Insert / Update / Delete:
+            | **Operation** | **Query**                                                                        |
+            | ------------- | -------------------------------------------------------------------------------- |
+            | Insert One    | `db.users.insertOne({ name: "Misha", email: "koko@x.com", role: "admin" })`      |
+            | Update One    | `db.users.updateOne({ email: "koko@x.com" }, { $set: { name: "Queen Misha" } })` |
+            | Update Many   | `db.users.updateMany({ role: "admin" }, { $set: { verified: true } })`           |
+            | Delete One    | `db.users.deleteOne({ email: "koko@x.com" })`                                    |
+            | Delete Many   | `db.users.deleteMany({ role: "guest" })`                                         |
+        
+        🧪 Aggregation Basics
+            db.audit_logs.aggregate([
+                { $match: { action: "CREATE" } },
+                { $group: { _id: "$action", count: { $sum: 1 } }}
+            ])
+            o/p: { _id: 'CREATE', count: 2 }
+
+    Implementation:
+        Installation in MAC
+        Step 1: Tap the MongoDB Homebrew Tap
+            brew tap mongodb/brew
+        Step 2: Install MongoDB Community Edition
+            brew install mongodb-community
+        This installs the latest version (as of now, 7.0).
+            Optional: Start MongoDB as a background service
+            brew services start mongodb/brew/mongodb-community
+        To stop it:
+            brew services stop mongodb/brew/mongodb-community
+        To Run MongoDB Manually (Foreground)
+            mongod --config /opt/homebrew/etc/mongod.conf
+        
+        For viewing: MongoDB Compass
+
+        To access in our application:
+            Using model or entity clases 
+    
