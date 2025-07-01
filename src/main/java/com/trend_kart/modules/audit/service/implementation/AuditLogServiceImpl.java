@@ -28,7 +28,7 @@ public class AuditLogServiceImpl implements AuditLogService {
     @Override
     @Async // We don't want this action to be done in the primary thread
     public void saveAuditLog(AuditLog auditLog) {
-        log.info("Thread::{}", Thread.currentThread().getName());
+        log.info("AuditLogServiceImpl::saveAuditLog::TestThread::{}", Thread.currentThread().getName()); // Added for Testing
         auditLog.setAuditedChanges(generateAuditedChanges(auditLog));
         auditLogRepository.save(auditLog);
     }

@@ -7,3 +7,5 @@ export mongodb_uri=mongodb://localhost:27017
 export mongodb_database=trend-kart
 export redis_host=localhost
 export redis_port=6379
+export elasticsearch_uri=http://localhost:9200
+export elasticsearch_host=localhost

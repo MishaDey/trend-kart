@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Cacheable(key = "all_users", value = "usersCache")
     public List<UserDTO> getAllUsers() {
-        log.info("Users::Fetching from DB"); // Added for Testing
+        log.info("UserServiceImpl::getAllUsers::Fetching from DB"); // Added for Testing
         List<User> users = userRepository.findAll();
         return users.stream().map(this::userToUserDTO).toList();
     }
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Cacheable(key = "#id", value = "user_id")
     public UserDTO findUser(UUID id) {
-        log.info("UserID::Fetching from DB"); // Added for Testing
+        log.info("UserServiceImpl::findUser::Fetching from DB"); // Added for Testing
         return userToUserDTO(
                 Objects.requireNonNull(userRepository.findById(id).orElse(null))
         );

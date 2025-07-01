@@ -927,6 +927,15 @@ NOW, LET's DEEP-DIVE
         | **Delete**              | `DELETE`       | ✅ Yes             | ❌ No       | `/users/{id}`                                 |
         | **Update with POST**    | `POST /update` | 🤏 Sometimes      | ✅ Yes      | Pragmatic choice for simple apps              |
         | **Use only `POST`**     | ❌ Anti-pattern | ❌ Bad idea        | ❌ No       | Violates REST principles                      |
+
+      Stateless and Stateful Apps:
+        |    | Stateful                                     | Stateless                       |
+        | -- | -------------------------------------------- | ------------------------------- |
+        | 🔁 | Remembers previous requests                  | Treats every request as new     |
+        | 🧠 | Stores data in server memory                 | Stores data in Redis / DB / JWT |
+        | ⚖️ | Harder to scale horizontally                 | Super easy to scale             |
+        | ⚠️ | Requires sticky sessions/load balancer hacks | Load balancer-friendly          |
+
   
   7. Redis
     - For Redis to work:
@@ -946,16 +955,345 @@ NOW, LET's DEEP-DIVE
       | **Locks & Semaphores** | Preventing race conditions and deadlocks         | Inventory, session control                              |
 
       8.1. MultiThreading:
-        * Definition: brain-bytes repo - Run multiple tasks at once using threads
-          - Thread: 
-            - Process:
-              - A independent Program in exceution
-              - Has it's own resources, memory and execution context
-              - Managed by OS
-            - Thread: A light-weight sub-process
+        8.1.1. Core Java Multithreading:
+            - Definition: brain-bytes repo - Run multiple tasks at once using threads
+            - Thread: 
+              - Process:
+                  A independent Program in exceution
+                  Has it's own resources, memory and execution context
+                  Managed by OS
+              - Thread: A light-weight sub-process
+                  Has it's own: stack, local variables, program counter
+                  Shares: heap, static fields, class level variables
+                  Why: To do multiple things at once
+
+                | Feature       | Process                      | Thread                                                   |
+                | ------------- | ---------------------------- | -------------------------------------------------------- |
+                | Memory        | Own memory space             | Shared memory (within same process)                      |
+                | Communication | Expensive (needs IPC)        | Easy (shared variables)                                  |
+                | Crash impact  | One process crash = isolated | One thread crash = can kill whole process if not handled |
+                | Creation cost | Heavy                        | Lightweight                                              |
+                | Example       | Spring Boot app              | HTTP request handler inside the app                      |
+
+                Can be done created in 2 ways:
+                  1. Using Thread class
+                  2. Runnable Interface
+                  -> This is not directly used in Spring boot applications. 
+                  -> The above is just raw Java
+                  -> Now we will move to better thread handling:
+                     - @Async and ExecutorService (uses the above concepts under the hood)
+
+                  | Concept    | Description                                                                                                                                    |
+                  | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+                  | `Thread`   | A Java class that represents an actual thread of execution. You can `extend Thread` and override `run()`. Rarely used directly in modern apps. |
+                  | `Runnable` | A functional interface with a `run()` method. Commonly used for tasks that **don’t return a value**.                                           |
+                  | `Callable` | Like `Runnable`, but with superpowers: has a `call()` method that **returns a value** and can throw exceptions. Used with `ExecutorService`.   |
+                
+                🔄 Thread Lifecycle (start, join, etc.)
+                  | Method      | What It Does                                                                                            |
+                  | ----------- | ------------------------------------------------------------------------------------------------------- |
+                  | `start()`   | Spawns a new thread and calls `run()` inside it.                                                        |
+                  | `run()`     | Contains the actual task logic. If you call `run()` directly, no new thread is created!                 |
+                  | `join()`    | Makes current thread wait until another thread is done. Think: "Wait till you're done, then I’ll move." |
+                  | `sleep(ms)` | Puts the thread to sleep (pauses it) for a bit.                                                         |
+                  
+                  Also -> stop() -> Depreciated and dangerous
+                    -> Leaves the shared resources in a inconsistent state
+                    -> doesn’t release locks properly
+                    -> can corrupt memory or data
+                    -> alternative is interrrupt()
+                        -> why it is safe?
+                          -> it doesn't force stop anything, just sets a flag that this thread has to be removed
+                          -> Now, it is our job to check for that flag and then handle it in out code and exit if needed.
 
 
-        * 
+                👻 Daemon vs User Threads
+                  | Type              | Use Case                                                 | Behavior                                    |
+                  | ----------------- | -------------------------------------------------------- | ------------------------------------------- |
+                  | **User Thread**   | Main app work (e.g., processing payments, saving data)   | Keeps the JVM alive until done              |
+                  | **Daemon Thread** | Background tasks (e.g., garbage collection, log cleanup) | JVM exits when only daemon threads are left |
+
+        8.1.2. Java Concurrency API – Real World Edition 
+          * ExecutorService and ThreadPoolExecutor:
+            Why?
+              - A better to manage threads
+                - No manual creation of threads, We can re-use threads, and we can control the pool size, also queue the tasks as per need
+              - 
+
+
+    9. Elasticsearch (ELK) -> Elasticsearch Logstash Kibana
+      9.1. ElasticSearch (ES)
+         * Elasticsearch:
+          - It is a distributed, JSON-based RESTful Search Engine
+          - Elasticsearch is a distributed search and analytics engine that stores data in a way similar to a NoSQL database.
+          - While Elasticsearch isn't a traditional relational DB, it does store data in a document-based structure (JSON docs), and it supports fast read/write operations. It's best viewed as a search-first NoSQL datastore — optimized for querying and text analysis rather than relational integrity.
+          - Elasticsearch uses Apache Lucene, which is the actual full-text search library.
+          - Uses:
+            - Full Text, Fuzzy Search, Plus Auto-Complete (Product Search)
+            - Filtering -> Structured + Keyword Search
+            - Sorted Search (to find the trending Users / Products)
+            - Log Aggregation and Analytics with Kibana (View and Search Terms)
+
+         * Macbook Installation steps:
+            brew install elastic/tap/elasticsearch-full
+            brew services start elasticsearch
+            elasticsearch
+
+            -- The above approach had some issue in Mac. 
+            So, Run with docker ->
+              docker run -d --name elasticsearch \
+                -p 9200:9200 -p 9300:9300 \
+                -e "discovery.type=single-node" \
+                docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+              To see it running: docker ps
+              Auto-Password generation will not be possible as it is not linked to any particular terminal. To reset it:
+                docker exec -it elasticsearch /bin/bash
+                bin/elasticsearch-reset-password -u elastic
+              Alternative: Mount and run it: Persists Reboots and also no password:
+                docker run -d --name elasticsearch \
+                  -p 9200:9200 -p 9300:9300 \
+                  -e "discovery.type=single-node" \
+                  -e "xpack.security.enabled=false" \
+                  -e "xpack.security.transport.ssl.enabled=false" \
+                  -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" \
+                  -v esdata:/usr/share/elasticsearch/data \
+                  docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+
+         
+         * Core Concepts of ElasticSearch:
+           - index -> It is like a database-table, one per entity type - Eg. Products
+           - document -> A JSON Record -> Like a record in a table
+           - field -> A key in our JSON document
+           - shard -> It is the logical slice of a index, which is used for scalability
+           - replica -> it is the copy of the shard which is used for fault tolerance
+           - analyser -> breaks the text into searchable tokens
+           - mapping -> Schema definition for documents - defines the field types and the analyzers
+           - query -> to find stuffs in Elasticsearch - using match term etc.
+          
+         * Querying in ElasticSearch:
+            - Spring-ElasticSearch Notes:
+              - searchSimilar() used more_like_this query under the hood.
+
+            1. Custom Queries via NativeSearchQueryBuilder + ElasticsearchOperations
+              This is the go-to.
+              Gives full control over queries (match, bool, fuzzy, range, nested — the whole ES buffet 🍱).
+              Works best when building search APIs like product search, filters, faceted search.
+
+            2. Query Derivation (findByNameContaining)
+              Fine for simple search boxes, POCs, internal tools.
+              Doesn’t scale well for complex search scenarios.
+              Falls apart when you want sorting, pagination, fuzziness, etc.
+
+            3. Autocomplete / Suggesters / Fuzzy Matching
+              For modern search (think Amazon/Flipkart search bars), custom analyzers, autocomplete with edge n-grams, and fuzzy matching are used.
+              Often set up with custom mappings at index creation.
+              Sometimes paired with Redis cache for hot terms.
+
+              | Goal                             | What to Use                                           |
+              | -------------------------------- | ----------------------------------------------------- |
+              | Simple search by name            | `findByNameContaining()` (for now)                    |
+              | Filter + search + sort products  | `NativeSearchQueryBuilder`                            |
+              | Advanced: type-ahead suggestions | Custom analyzers + edge n-grams                       |
+              | Related products                 | ML + vector search (or fallback to `searchSimilar()`) |
+
+              Intital target for TrendKart:
+                - NativeSearchQueryBuilder and CustomAnalysers with edge n-grams (for type-ahead sugestions)
+                    You master these two, you can build everything from:
+
+                    * 🔍 Keyword search
+                    * 🎯 Filtered search
+                    * 🔀 Sorted results (by price, rating, etc.)
+                    * ✨ Autocomplete suggestions
+                    * 😎 Fuzzy “Did you mean?” matches
+                    * 📈 Faceted navigation (like category filters)
+                    * 🧮 Pagination & scroll
+
+                    ### ✅ 1. `NativeSearchQueryBuilder`: Your search godmode
+                      We can:
+
+                      * `must`, `should`, `filter` → like SQL + AND/OR
+                      * Add `sorts` → price, rating, etc.
+                      * Set `pageable` → pagination
+                      * Add fuzziness → typo-tolerance
+                      * Highlight → to show matching terms
+
+                      Basically write *structured ES queries* in Java.
+                      Much more scalable, readable, and testable than magic `findBy...` methods.
+
+                      ---
+
+                    ### ✅ 2. `Custom Analyzers` + edge n-grams: Your autocomplete power booster
+                      We can define **how the data is broken into tokens**, stored, and queried.
+
+                      With:
+
+                      ```json
+                      "edge_ngram": {
+                        "min_gram": 2,
+                        "max_gram": 10,
+                        "token_chars": ["letter", "digit"]
+                      }
+                      ```
+
+                      You can start typing `iph` and BOOM — get `iPhone 14 Pro Max` in results.
+
+                      Perfect for:
+
+                      * Type-ahead search bars
+                      * Instant suggestions (like Amazon's 🔍 dropdown)
+                      * Fuzzy matches (fixing spelling mistakes)
+
+                    ---
+
+                    | What                       | Why it rules                                    |
+                    | -------------------------- | ----------------------------------------------- |
+                    | `NativeSearchQueryBuilder` | Fine-grained, powerful, production-friendly     |
+                    | `Custom analyzers`         | Gives you autocomplete, spellcheck, fast search |
+
+                    mappings.json - sample
+                    {
+                      "properties": {
+                          "id": {
+                              "type": "keyword"
+                          },
+                          "name": {
+                              "type": "text", // Text type for full-text search - meaning it will be analyzed - to search inside that
+                              "analyzer": "standard",
+                              "search_analyzer": "standard"
+                          },
+                          "code": {
+                              "type": "keyword"
+                          },
+                          "description": {
+                              "type": "text",
+                              "analyzer": "standard",
+                              "search_analyzer": "standard"
+                          },
+                          "price": {
+                              "type": "float"
+                          },
+                          "category": {
+                              "type": "keyword" // Keyword type for exact matches - to filter or sort by category
+                          },
+                          "brand": {
+                              "type": "keyword" // Keyword type for exact matches - to filter or sort by category
+                          },
+                          "tags": {
+                              "type": "keyword" // Keyword type for exact matches - to filter or sort by category
+                          }
+                      }
+                  }
+
+                  settings.json - 
+                  
+                  Attributes in FuzzyQuery:
+                    🔹 fuzziness:
+                        Edit distance allowed between query term and matching term.
+                        | Value    | Meaning                                  |
+                        | -------- | ---------------------------------------- |
+                        | `"0"`    | Exact match only (aka... no fuzz at all) |
+                        | `"1"`    | One character difference allowed         |
+                        | `"2"`    | Two character differences allowed        |
+                        | `"AUTO"` | Smart mode:                              |
+                        |          | → `length < 3` ⇒ 0                       |
+                        |          | → `3 <= length <= 5` ⇒ 1                 |
+                        |          | → `length > 5` ⇒ 2                       |
+
+                    🔹 prefixLength
+                        Minimum number of characters at the start that must match exactly.
+                        | Value       | Meaning                                  |
+                        | ----------- | ---------------------------------------- |
+                        | `0`         | No prefix required (fuzz the whole word) |
+                        | `1` or more | Require first `n` characters to match    |
+
+                    🔹 maxExpansions
+                        How many "similar terms" Elasticsearch will explore during fuzzy matching.
+                        | Value       | Meaning                                  |
+                        | ----------- | ---------------------------------------- |
+                        | `1 - 1000+` | More = better match chance, slower speed |
+                     🔥 must vs should – The Quick Story:
+                        | Clause Type | What it means                                                             | Docs must match?                                |
+                        | ----------- | ------------------------------------------------------------------------- | ----------------------------------------------- |
+                        | `must`      | **AND** logic — conditions that MUST match.                               | ✅ Yes                                           |
+                        | `should`    | **OR** logic — boosts score if matched, or becomes required if no `must`. | ❌ Optional (unless `minimumShouldMatch` is set) |
+
+
+                        Delete all docs in an index - 
+                            curl -X POST "localhost:9200/products/_delete_by_query" -H 'Content-Type: application/json' -d'
+                            {
+                              "query": {
+                                "match_all": {}
+                              }
+                            }'
+                        
+                        Note: 
+                          💥 Problem: Fuzzy search works best with simple or whitespace analyzers (not standard), because standard splits on special characters and normalizes heavily.
+                        | Feature         | Autocomplete                                | Fuzzy                              |
+                        | --------------- | ------------------------------------------- | ---------------------------------- |
+                        | 🔍 Use Case     | Typing slowly, matching from start          | User types wrong (typos/misspells) |
+                        | 🧠 How it works | Uses `edge_ngram` to pre-index all prefixes | Uses **Levenshtein edit distance** |
+                        | ⏱️ Speed        | Very fast (precomputed)                     | Slower (calculates at query time)  |
+                        | 🧪 Example      | "blu" → "Bluetooth", "Blues"                | "blutoth" → "Bluetooth"            |
+
+          * TO DO LATER -> Search Analytics 
+          * ⚠️ Optional Advanced Topics (Not critical unless you're building ES-heavy system):
+              | Feature                                                        | Worth Doing?                                          |
+              | -------------------------------------------------------------- | ----------------------------------------------------- |
+              | **Synonym Graphs** (runtime synonyms)                          | Only if you want dynamic synonyms via plugins         |
+              | **Relevance Tuning** (boosting fields)                         | Only for high-scale search optimization               |
+              | **Custom scoring**                                             | When you're building recommendation systems           |
+              | **Multi-field analyzers** (e.g. `name.standard`, `name.ngram`) | If you want to combine exact, prefix & fuzzy together |
+              | **Highlighting**                                               | To highlight matched text in UI                       |
+              | **Aggregations** (for facets like "filter by brand")           | Could be cool, but not urgent                         |
+              | **Security** (role-based access to indices)                    | Not needed in your app right now                      |
+
+            
+      9.2. Kibana
+        - It is used to visualise the data from elasticsearch, but never write to it
+        Think of it as:
+          📊 Frontend for Elasticsearch
+          🔍 Query playground (like Postman for ES)
+          📈 Dashboard builder
+          🔐 Access control & observability layer
+          You don't use Kibana in your Spring Boot app directly — it’s a tool you open in browser (usually runs at localhost:5601).
+
+          | Use Case                                | Why It’s Useful               |
+          | --------------------------------------- | ----------------------------- |
+          | 🔍 Try out queries before coding them   | Dev-friendly                  |
+          | 📈 Visualize search analytics           | Like what users are searching |
+          | 📂 Explore your indexed documents       | No code needed                |
+          | 🛠️ Manage indices, mappings, analyzers | GUI-style                     |
+          | 🚦Monitor ES cluster health & logs      | If going production           |
+          | 🔄 Define index lifecycle & rollovers   | For scaling                   |
+        
+        Steps:
+          -> First run elasticsearch
+          -> Pull the docker image and run:
+            docker run -d \
+            --name kibana \
+            --link elasticsearch:elasticsearch \
+            --restart unless-stopped \
+            -p 5601:5601 \
+            kibana:8.10.4
+
+            Docker 🔄 Restart Policies Explained:
+              | Flag             | Behavior                                                 |
+              | ---------------- | -------------------------------------------------------- |
+              | `no`             | (default) Never restarts                                 |
+              | `on-failure`     | Restarts *only if* exit code ≠ 0                         |
+              | `always`         | Restarts no matter what                                  |
+              | `unless-stopped` | Restarts *unless* you explicitly stop it (`docker stop`) |
+
+              So with --restart unless-stopped, your Kibana will:
+                Survive reboots
+                Auto-recover from crashes
+                Only stop if you tell it to
+            
+            TO DO: Check How to use Kibana
+
+    10. Kafka
+    
+    11. How to make system scalable?
 
 
 

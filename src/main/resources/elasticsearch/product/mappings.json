@@ -1,0 +1,39 @@
+{
+    "properties": {
+        "id": {
+            "type": "keyword"
+        },
+        "name": {
+            "type": "text",
+            "analyzer": "autocomplete",
+            "search_analyzer": "autocomplete",
+            "fields": {
+                "raw": {
+                    "type": "text",
+                    "analyzer": "autocomplete",
+                    "search_analyzer": "autocomplete"
+                }
+            }
+        },
+        "code": {
+            "type": "keyword"
+        },
+        "description": {
+            "type": "text",
+            "analyzer": "standard",
+            "search_analyzer": "standard"
+        },
+        "price": {
+            "type": "float"
+        },
+        "category": {
+            "type": "keyword"
+        },
+        "brand": {
+            "type": "keyword"
+        },
+        "tags": {
+            "type": "keyword"
+        }
+    }
+}

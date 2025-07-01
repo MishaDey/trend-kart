@@ -42,6 +42,8 @@ spring:
           max-active: 10 # Max no. of connections allowed at once
           max-idle: 10
           min-idle: 1
+    elasticsearch:
+      uris: ${elasticsearch_uri}
 
 logging:
   level:
@@ -50,3 +52,5 @@ logging:
       springframework:
         context:
           event: INFO
+elasticsearch:
+  host: ${elasticsearch_host}
