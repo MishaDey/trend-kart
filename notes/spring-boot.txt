@@ -606,6 +606,29 @@ NOW, LET's DEEP-DIVE
 
 ---
 
+  AOP - Aspect Oriented Programming
+    - Aspect Oriented programmming is a way of structuring the code which helps in separating the cross-cutting
+      concerns(Logging, Security, Transactions) from the main logic.
+    - cross-cutting means that it cuts across multiple layers / modules
+    - Without AOP -> It will cause boilerplate code
+    - with AOP -> We extract these common concerns and handle them outside the core business logic, in separate "aspects"
+    - Core concepts of AOP:
+        - Aspect -> the cross cutting logic -> like the logging, security etc.
+        - Advice -> what action to take and when to perform it -> before, after, around method
+        - Join Point -> A point in code execution -> Like a method call.
+        - Point Cut -> A set of join points, filters when advice should run
+        - Weaving -> Injecting the Aspects into the actual code, done using the AOP Frameworks.
+    - 🔧 Where is AOP used in Industry?
+        | Use Case         | Example in Real Projects                                                |
+        | ---------------- | ----------------------------------------------------------------------- |
+        | **Logging**      | Log every incoming request and response                                 |
+        | **Security**     | Check if user is authorized before method call                          |
+        | **Transactions** | Rollback or commit database transactions (Spring does this via AOP)     |
+        | **Performance**  | Measure method execution time                                           |
+        | **Monitoring**   | Inject metrics collection logic (Datadog, Prometheus, etc.)             |
+        | **Validation**   | Enforce input rules without touching every controller or service method |
+
+
 
 ✅ 2️⃣ Build Tools
   🔧 **What Are Build Tools?**
@@ -1292,6 +1315,11 @@ NOW, LET's DEEP-DIVE
             TO DO: Check How to use Kibana
 
     10. Kafka
+        - Scalable, Distributed, Event Streaming Platform.
+        - Written in: Java + Scala
+        - Spring Boot + Spring Kafka
+
+        📜 Roadmap: Java + Kafka Topics
     
     11. How to make system scalable?
 

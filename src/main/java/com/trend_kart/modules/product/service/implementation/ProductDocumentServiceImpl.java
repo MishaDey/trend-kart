@@ -6,7 +6,6 @@ import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
-import co.elastic.clients.json.JsonData;
 import com.trend_kart.modules.product.dto.ProductDocumentDTO;
 import com.trend_kart.modules.product.entity.ProductDocument;
 import com.trend_kart.modules.product.service.ProductDocumentService;

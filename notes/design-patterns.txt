@@ -1,0 +1,302 @@
+Design Patterns:
+    - Some pre-existing, re-usable solutions to some well known problems in software design.
+    Types:
+        1. Creational
+        2. Structural
+        3. Behavioral
+
+
+Creational Design Patterns: 
+        - Focuses on how objects are created
+
+    Singleton:
+        - Ensures only one instance exists (used in logging, configs)
+        - Spring: default scope of Spring Beans is "singleton"
+        - TrendKart:
+            All the Components are using them internally -> Why? Reduces the memory used and helps in having a consistent state
+            Also Config classes, and common utility classes
+    
+    Factory:
+        - Create an interface for creating an object, but then let the sub-classes decide which classes to instantiate
+        - Spring: BeanFactory and ApplicationContext creates bean using this
+        - TrendKart:
+            NotificationFactory → creates Email, SMS, Push services
+            We get the flexibility to extend it without changing the old code
+    
+    Abstract Factory:
+        - Factory of Factories. Used when a family of objects are needed.
+        - Spring: Application Context uses it to generate a families of related beans
+        - TrendKart:
+            PaymentGatewayFactory -> Returns family of gateway-related objects (payment, refund, validation)
+            Makes it scalable
+    
+    Prototype:
+        - when we use an existing object to generate another object
+        - Spring: when we use @Scope("prototype")
+        - TrendKart:
+            CustomScope Beans like -> InvoiceGenerator, OrderSummaryBuilder
+            -> Where new instances may be needed in each request
+    
+    Builder:
+        - When we do step-by-step construction of complex objects
+        - Separate the construction of complex objects from its Representational
+        - Spring: Fluent APIs in Spring Boot (WebClient, SecurityBuilder)
+        - TrendKart:
+            Will use internally for each class and component
+
+    Object Pool (Spring):
+        - Spring: Connection pooling via HikariCP
+        - TrendKart:
+            HikariConnectionPool / Datasource
+
+
+Structural Design Pattern:
+    -  Focuses on how different classes and objects are composed to form a larger picture
+
+    Adapter (Wrapper):
+        - Adapter is a structural design pattern that allows objects with incompatible interfaces to collaborate.
+        - Spring: HandlerAdapter in Spring MVC, JdbcTemplate adapting JDBC
+    
+    Bridge:
+        - Decouples the abstraction from its implementation so that it can vary indeependently
+        - Spring: JPA abstracts between Spring and the actual DB implementation
+
+    Composite:
+        - Compose the objects into tree like structure to represent part-whole structure
+        - Spring: Spring Security’s AccessDecisionVoter setup
+
+    Decorator:
+        - Add new behavior to the object without altering their behaviour 
+        - Spring: BeanPostProcessor - used to enhance the bean behavior
+        - Where is it commonly used in?
+                | Use Case                             | Pattern Used              | Example Decorator                       |
+                | ------------------------------------ | ------------------------- | --------------------------------------- |
+                | **Logging**                          | Classic Decorator         | Log before/after service calls          |
+                | **Retry Logic**                      | Decorator or Resilience4j | Retry wrapping service method           |
+                | **Rate Limiting / Throttling**       | Decorator / AOP           | Allow X req/min                         |
+                | **Caching**                          | Decorator (Redis/Local)   | Wrap expensive calls (e.g. search)      |
+                | **Authorization Checks**             | Decorator or AOP          | Check roles before method               |
+                | **Metrics Collection (Prometheus)**  | Decorator                 | Track call count, duration              |
+                | **Request Validation**               | Often AOP                 | Validate input params before proceeding |
+                | **Multitenancy / Context Injection** | Decorator or AOP          | Inject tenantId/userId dynamically      |
+                | **Failover Routing**                 | Decorator                 | Try another backend if one fails        |
+                
+                🔍 Real Frameworks That Use Decorator Pattern Internally
+                    | Framework / Tool    | How It Uses Decorator                                                  |
+                    | ------------------- | ---------------------------------------------------------------------- |
+                    | **Spring Boot**     | Internally uses decorators for logging, security, etc.                 |
+                    | **Spring Security** | Uses multiple decorators over the filter chain                         |
+                    | **Resilience4j**    | Built 100% on the Decorator pattern (retry, bulkhead, circuit breaker) |
+                    | **Netflix Hystrix** | Old-school circuit breaker — classic decorator                         |
+                    | **FeignClient**     | Feign decorators let you plug into request flow                        |
+                    | **Lombok**          | `@Delegate` is a syntax sugar for building decorators                  |
+
+    Facade:
+        - Simplify complex subsystems with a single interface
+        - Spring: JdbcTemplate, RestTemplate -> which hides the boilerplate code
+    
+    Flyweight:
+        - Share the common parts of state between various objects (instead of keeping copies of same data across objects) to save memory.
+    
+    Proxy:
+        - Provide a placeholder / substitute object to controll access to another object
+        - Spring: AOP (Aspect-Oriented Programming), @Transactional, @Async -> all use proxies
+
+    Module (Spring):
+        - Not GoF, but very relevant in Spring Boot — breaking app into modular packages (User, Order, Product)
+        - Helps with SRP, maintainability, and microservices transition
+
+
+Behavioural Design Pattern:
+    - How objects communicate, how responsibilities are divided between them
+    - Objective: To make the system - More - Maintainable, Flexible and Loosely Coupled
+
+    Chain of Responsibility:
+        - Pass the request through a chain of handlers. Each can choose to -> Process or Pass the request.
+        - Spring: Spring Security Filter Chain
+    
+    Command:
+        - Encapsulate the Request in an object which enables the parameterisation and queuing of the requests
+        - Spring: Runnable, Callable, or Spring Batch steps
+    
+    Interpreter:
+        - Defines a grammar for a language and interprets the requests in that language. 
+        - Spring: Spring Expression Language (SpEL)
+    
+    Iterator:
+        - Provide a way to access the elements in a collection sequentially without showing the internal implementation
+    
+    Mediator: 
+        - Define a object which will act as mediator for interaction between two other objects
+        - Spring: Spring's DispatcherServlet coordinating between the controllers and the handlers
+    
+    Memento:
+        - Enables us to save and restore the previous state of an object without revealing the internal implementation
+    
+    Observer:
+        - Publisher, Subscriber / Observer
+        - Let's us define a subscription mechanism, where some object can subscrbe to another object(the publisher)
+        - the publisher notifies the subscribers about its event -> the one that they have subscribed to.
+        - Spring: (ApplicationEventPublisher, @EventListener), Kafka, RabbitMQ
+    
+    State: 
+        - Let's the objects to to alter its behaviour when the internal state changes. It appears as if it has changed its class. 
+    
+    Strategy:
+        - Define a family of algorithms, encapsulate them, and then make them Interchangable
+        - Spring: AuthenticationProvider, or PasswordEncoder implementations
+    
+    Template Method:
+        - Define a skeleton of an algorithm in the superclass, but lets the subclasses override the specific steps of the algorithm
+          without changing its structure.
+        - Spring: JdbcTemplate, RestTemplate – define skeleton & let you customize steps
+
+    Visitor:
+        - Makes it possible to separate the algorithms from the objects on which they operate on. 
+        
+    Null Object Pattern (Spring):
+        - Instead of returning null, return a harmless, do-nothing object that still behaves like the real object
+        - Optional Beans (@ConditionalOnMissingBean)
+        - 🌱 Spring’s Twist — @ConditionalOnMissingBean
+            Now, in Spring Boot land, you don’t manually return null. Instead, you say:
+            "If no one else has defined this bean, then create a default one."
+            And that default bean? That’s your Null Object. 😎
+
+
+Additonal Notes:
+    Is Dependency Injection a design pattern?
+        - No, but it is an architectural principle or technique
+        - So what design patterns are involved here?
+
+            | Principle/Term           | Backed by These Design Patterns                                |
+            | ------------------------ | -------------------------------------------------------------- |
+            | **Dependency Injection** | Uses **Strategy**, **Service Locator**, and **Factory Method** |
+            | **Inversion of Control** | Abstracts away the control of object creation                  |
+            | **@Autowired** in Spring | Achieved using **Proxy** and **Singleton** under the hood      |
+
+            👀 Here’s how it connects:
+                Factory Method: Spring internally calls factory methods to create beans.
+                Singleton: Spring beans are singleton-scoped by default.
+                Service Locator: The ApplicationContext is basically a massive service locator.
+                Proxy: Many beans are wrapped in proxies to allow features like AOP (@Transactional, @Async, etc.)
+                Strategy: Interfaces + DI lets you swap out behaviors at runtime.
+
+
+
+
+Design Pattern Implementation Notes:
+    
+    Creational:
+        1. Singleton:
+            Default scopes for all the beans in Spring Application.
+            Spring Boot @Service = Singleton bean = One instance
+            Multiple requests = Multiple threads = Concurrent execution
+            Don't use shared mutable state unless you're handling concurrency
+
+        2. Factory:
+            - Delegate the object creation to a factory class
+            - Where we want to create objects without binding the code to their concrete classes
+            - Advantages:
+                - Open / Close Principle
+                - Single Responsibility Principle
+                - Scalability -> We can keep extending it to more and more notification types
+            - Usecase:
+                - NotificationService:
+                    Implementation can be:
+                        1. Manual Factory of the Strinhg Beans -> using switch-case
+                        2. String Boots Autowiring + Map
+                            - When we do Map<String, Bean>, then Stringboot will automatically inject all the beans implementing Bean and key them with beanName in @Component("beanName")
+                    Will this be considered as factory even if we are not generating the beans and just using the already generated beans?
+                        - Yes, Because the idea of factory method is to encapsulate the bean generation logic not to instantiate it manually everytime a particular method is called.
+                        | Traditional Factory                              | Spring-style Factory                       |
+                        | ------------------------------------------------ | ------------------------------------------ |
+                        | Uses `new` to create objects                     | Uses Spring to inject all beans            |
+                        | You manually manage lifecycle                    | Spring manages lifecycle                   |
+                        | You decide which class to instantiate at runtime | You decide which bean to return at runtime |
+                        | Object creation logic is encapsulated            | Object *retrieval* logic is encapsulated   |
+                        | `return new EmailNotification()`                 | `return notificationMap.get("email")`      |
+        3. Abstract Factory:
+            - Factory of related factoriies
+            - When we create a family of related or dependent objects
+            - It's like saying - give me whole family of related objects. 
+            - Use case in TrendKart?
+                - Multiple Payment Gateways:
+                    Payu, Plural, ICICI
+                        - Each one will have:
+                            Components:
+                                PaymentProcessor, RefundProcessor, PaymentValidator
+                            Each gateway will need to implement each of the above services
+        
+        4. Builder
+            - Where we build the complex object step by step
+            - in TrendKart: using .builder method
+
+        5. Prototype
+            - clone the existing object to produce a new one - to minimise the cost of creation
+            - can be done with .clone() or .copy()
+            - Spring:
+                - supports a "prototype" scoped beans using @Scope("prototype")
+                    - That means that everytime that we request for a bean, spring gives a new one
+            - Usecase: *****
+
+    Structural:
+        1. Adapter
+            - converts one interface to another one as per requirement. 
+            - can be used in intergration with external APIS
+                - In the Payment Flow, where -
+                    Target - PaymentProcessor - The interface that the client expects
+                    Adapter - PayuProcessor, PluralProcessor - The classes that implements the Target interface and adapts the Adaptee
+                    Adaptee - The incompatible interface / class / system that has to be integrated into the new system -> PayuClient, PluralClient
+                    Client - Payment controller / service where we are calling the above methods
+         
+        2. Decorator Pattern
+            - Decorator is about behaviour enhancement
+            - We can add extra behaviour to the existing system
+            - Implementation:
+                1. Spring Bean Wrapping - Like @Primary, @Qualifier
+                2. AOP(Proxy-based)
+                3. Functional Composition (Lambdas)
+            - Creating different decorators for each class separately will lead to boilerplate code.
+                - With so much chaining, it is hard to maintain
+                - Creating each decoratory class for each service will lead to creation of too mcany classes
+                - so we need to centralise the calls -> Can be done using AOP - Aspect Oriented Programming
+
+            - In TrendKart:
+                - Logging Aspect -> @Aspect, @Before, @After, @Around will do the trick implicitly, without making it hard to maintain
+        
+        3. Proxy
+            - Feels like Decorator, But it is about control and restriction, not about behaviour enhancement
+            - Decorator adds functionality
+            - Proxy is about controlling access like -> delaying, securing, caching, restricting, etc.
+                -> Lazy loading
+                -> Security / Auth Checks
+                -> Logging Access
+                -> Wrapping Remote Service Calls (REST)
+            - Acts as a placeholder, gatekeeper or middlemen
+            -> Proxy Pattern Structure / components:
+                - Client - the code that wants to use a service
+                - Subject - The interface that client interracts with. Both RealSubject and Proxy will implement this. 
+                - RealSubject - Implements the Subject - The real functionality lies here
+                - Proxy - The middlemen that also implements the subject and controls the access to real subject
+            -> Examples:
+                | Use Case                 | Real Example                             | Pattern Role              |
+                | ------------------------ | ---------------------------------------- | ------------------------- |
+                | **AOP in Spring**        | `@Transactional`, `@Async`, `@Cacheable` | All use Proxies           |
+                | **Security Gatekeeping** | `@PreAuthorize`, `@Secured`              | Proxy pattern             |
+                | **Remote APIs**          | Feign Clients, gRPC stubs                | Proxies for remote access |
+                | **Lazy-loading data**    | Hibernate lazy associations              | Proxy for entity          |
+                | **Access control**       | Restrict internal API usage              | Proxy                     |
+            
+            -> Trendkart Implementation: PaymentRateLimiter -> will ack as the proxy
+
+
+
+        6. Facade
+
+        7. FlyWeight
+
+        2. Bridge
+
+        3. Composition
+
+
